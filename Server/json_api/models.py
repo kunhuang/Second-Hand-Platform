@@ -12,6 +12,32 @@ class Account_Info(models.Model):
 	buy_exp = models.IntegerField(max_length = 4)
 	phone = models.CharField(max_length = 11, default = 0)
 	
+	@staticmethod
+	def validate(email, password):
+		try:
+			Account_Info.objects.get(email = email, password = password)
+		except Exception, e:
+			return False
+		else:
+			return True
+
+	@staticmethod
+	def add_account(name, email, password, phone):
+		try:
+			Account_Info.objects.get(email = email)
+			return -2
+		except:
+			account_info = Account_Info.objects.create(
+				name = name,
+				email = email,
+				password = password,
+				phone = phone,
+				sell_exp = 0,
+				buy_exp = 0,
+				)
+			Account_Info.objects.add(account_info)
+			return True
+	
 class Goods_Info(models.Model):
 	state_choice = (
 		('I', 'initiated'),
