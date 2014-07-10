@@ -265,7 +265,7 @@ def transact_goods(request):
                 return HttpResponse(json.dumps(success))
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
-        else if account_type == 1:#buyer
+        elif account_type == 1:#buyer
             goods = Goods_Info.objects.filter(seller_id = seller_id)
         
             if goods.exists() == False:
