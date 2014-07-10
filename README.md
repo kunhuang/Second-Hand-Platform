@@ -17,8 +17,17 @@ DATA:
     password, 
     (phone), 
 RESPONSE:
-    成功:{"success": 1}
-    失败:{"success": 0, "error_type": "abc"}
+    成功:{"success": 1, }
+    失败:{"success": 0, "error_type": -1}
+
+*登录账号（根据email和password返回id）
+URL: POST /json_api/get_account_id
+DATA:
+    email,
+    pasword,
+RESPONSE:
+    成功:{"success": 1, "id": }
+    失败:{"success": 0, "error_type": -1}
 
 *返回账户信息
 URL: POST /json_api/get_account_info
@@ -27,34 +36,135 @@ DATA:
     password
 RESPONSE
     成功:{"success": 1, }
-    失败:{"success": 0, "error_type": "abc"}
+    失败:{"success": 0, "error_type": "-1"}
 
 *修改账户信息
-URL: /json_api/edit_account
-METHOD: POST
+URL: POST /json_api/edit_account_info
 DATA:
     email = 
     password = 
     (name) = 
     (new_password) = 
     (phone) = 
+RESPONSE
+    成功:{"success": 1, }
+    失败:{"success": 0, "error_type": "-1"}
 
 *添加商品
+URL: POST /json_api/add_goods
+DATA:
+    seller_id,
+    password,
+    name,
+    (description),
+    pure_price,
+    (photo),
+RESPONSE:
+
 *返回单个商品信息
+URL: POST /json_api/get_goods_info
+DATA:
+    seller_id,
+    password,
+    goods_id,
+RESPONSE:
+
 *查看搜索商品（返回多个商品信息）
+URL: POST /json_api/get_goods_array
+DATA:
+    seller_id,
+    password,
+    (option),
+RESPONSE:
+
 *修改商品信息
+URL: POST /json_api/edit_goods_info
+DATA:
+    seller_id,
+    password,
+    goods_id,
+    (description),
+    (pure_price),
+    (photo),
+RESPONSE:
+
 *改变商品状态（包括上架，下架，交易）
+URL: POST /json_api/transact_goods_info
+DATA:
+    seller_id,
+    password,
+    goods_id,
+    type,
+RESPONSE:
 
 *查看、搜索交易记录
+URL: POST /json_api/get_transaction_array
+DATA:
+    account_id,
+    password,
+    account_type, (0 for seller, 1 for buyer)
+    (option),
+RESPONSE:
 
 *评论商品
+URL: POST /json_api/add_comment
+DATA:
+    account_id,
+    password,
+    goods_id,
+    content,
+RESPONSE:
+
 *查看商品评论
+URL: POST /json_api/get_comment
+DATA:
+    goods_id,
+    (option)
+RESPONSE:
 
 *将商品加入心愿单
+URL: POST /json_api/add_wishlist
+DATA:
+    buyer_id,
+    password,
+    goods_id,
+    (option)
+RESPONSE:
+
 *返回心愿单信息
+URL: POST /json_api/get_wishlist
+DATA:
+    buyer_id,
+    password,
+    (option)
+RESPONSE:
 
 *发送站内信
+URL: POST /json_api/send_message
+DATA:
+    account_id,
+    password,
+    recv_account_id,
+    subject,
+    content,
+    (option)
+RESPONSE:
+
 *查看站内信（返回多个站内信）
+URL: POST /json_api/get_message_array
+DATA:
+    account_id,
+    password,
+    (option)
+RESPONSE:
+
 *查看单个站内信（返回单个站内信内容）
+URL: POST /json_api/get_message
+DATA:
+    account_id,
+    password,
+    message_id,
+    (option)
+RESPONSE:
 
 ##Andriod_Client目录下为Andriod客户端代码

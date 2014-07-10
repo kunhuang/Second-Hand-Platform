@@ -13,14 +13,23 @@ class Account_Info(models.Model):
 	phone = models.CharField(max_length = 11, default = 0)
 	
 	@staticmethod
-	def validate(email, password):
+	def validate_email(email, password):
 		try:
-			Account_Info.objects.get(email = email, password = password)
+			account = Account_Info.objects.get(email = email, password = password)
+		except Exception, e:
+			return False
+		else:
+			return account.id
+
+	@staticmethod
+	def validate_id(id, password):
+		try:
+			account = Account_Info.objects.get(id = id, password = password)
 		except Exception, e:
 			return False
 		else:
 			return True
-
+		
 	@staticmethod
 	def add_account(name, email, password, phone):
 		try:
@@ -35,7 +44,6 @@ class Account_Info(models.Model):
 				sell_exp = 0,
 				buy_exp = 0,
 				)
-			Account_Info.objects.add(account_info)
 			return True
 	
 class Goods_Info(models.Model):
