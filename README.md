@@ -8,6 +8,8 @@
 0->未知错误
 -1->身份验证失败（账号名或密码错误） 
 -2->账号已存在（邮箱重复）
+-3->找不到goods
+-4->没有权限操作的goods（如别人的goods，只能在未上架的情况下修改价格）
 
 *注册账号
 URL: POST /json_api/add_account
@@ -89,12 +91,13 @@ DATA:
 RESPONSE:
 
 *改变商品状态（包括上架，下架，交易）
-URL: POST /json_api/transact_goods_info
+URL: POST /json_api/transact_goods
 DATA:
-    seller_id,
+    account_id,
     password,
+    account_type, (0 for seller, 1 for buyer)
     goods_id,
-    type,
+    type,('O' for on_sale, 'B' for bought, 'C' for close)
 RESPONSE:
 
 *查看、搜索交易记录
