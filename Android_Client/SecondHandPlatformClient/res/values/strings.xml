@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">二手交易平台</string>
+    <string name="home">主页</string>
+    <string name="wish_list">心愿单</string>
+    <string name="record">记录</string>
+    <string name="personal_info">个人信息</string>
+    <string name="message_center">消息中心</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">搜索</string>
+    <string name="action_settings">设置</string>
+
+</resources>
