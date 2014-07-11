@@ -42,7 +42,7 @@
                 android:src="@drawable/banner_text" />
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/userName"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -55,7 +55,7 @@
             </EditText>
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/userPasswd"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

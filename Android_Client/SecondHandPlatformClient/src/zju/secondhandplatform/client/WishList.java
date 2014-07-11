@@ -1,5 +1,12 @@
 package zju.secondhandplatform.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -31,12 +38,32 @@ public class WishList extends Fragment {
         }
 
         public WishList() {
+        	ClientApp clientApp = ((ClientApp)this.getActivity().getApplicationContext());  
+    
+        	List<NameValuePair> params = new ArrayList<NameValuePair>();
+    		params.add(new BasicNameValuePair("email", "12345678@qq.com"));
+    		params.add(new BasicNameValuePair("password", "123456"));
+
+    		Json json=new Json("/json_api/get_account_id/",params);
+    		try {
+    			int success=json.getJsonObj().getInt("success");
+    			if(success==1){
+    				clientApp.setId(json.getJsonObj().getInt("id"));        			
+    			}
+    			else {
+        			int error_type=json.getJsonObj().getInt("error_type");
+    			}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
+        	View rootView = inflater.inflate(R.layout.login, container, false);
+ //           View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
  //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             textView.setText("This is WishList");

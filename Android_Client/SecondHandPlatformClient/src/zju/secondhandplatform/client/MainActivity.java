@@ -29,11 +29,13 @@ public class MainActivity extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+    
+    private  ClientApp clientApp; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -43,6 +45,8 @@ public class MainActivity extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        
+//        clientApp = (ClientApp)getApplication();
     }
 
     @Override
@@ -55,8 +59,11 @@ public class MainActivity extends Activity
         
         switch (position+1) {
         case 1:
+//            fragmentManager.beginTransaction()
+//            .replace(R.id.container, Home.newInstance(position + 1,clientApp))
+//            .commit();
             fragmentManager.beginTransaction()
-            .replace(R.id.container, Home.newInstance(position + 1))
+            .replace(R.id.container, new Home(position + 1,clientApp))
             .commit();
             break;
         case 2:
