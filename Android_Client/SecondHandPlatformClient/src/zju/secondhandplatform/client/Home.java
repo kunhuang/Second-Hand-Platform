@@ -1,5 +1,11 @@
 package zju.secondhandplatform.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -30,7 +36,14 @@ public class Home extends Fragment {
             return fragment;
         }
 
-        public Home() {
+        public Home() {        	
+        	List<NameValuePair> params = new ArrayList<NameValuePair>();
+    		params.add(new BasicNameValuePair("name", "test"));
+    		params.add(new BasicNameValuePair("email", "12345678@qq.com"));
+    		params.add(new BasicNameValuePair("password", "123456"));
+    		params.add(new BasicNameValuePair("phone", "12345678910"));
+
+    		Json json=new Json("/json_api/add_account/",params);
         }
 
         @Override
