@@ -10,6 +10,8 @@
 -2->账号已存在（邮箱重复）
 -3->找不到goods
 -4->没有权限操作的goods（如别人的goods，只能在未上架的情况下修改价格）
+-5->已经加入心愿单
+-6->不在心愿单中
 
 *注册账号
 URL: POST /json_api/add_account
@@ -119,8 +121,10 @@ DATA:
 RESPONSE:
 
 *查看商品评论
-URL: POST /json_api/get_comment
+URL: POST /json_api/get_comment_array
 DATA:
+    account_id,
+    password,
     goods_id,
     (option)
 RESPONSE:
@@ -139,6 +143,15 @@ URL: POST /json_api/get_wishlist
 DATA:
     buyer_id,
     password,
+    (option)
+RESPONSE:
+
+*删除心愿单信息
+URL: POST /json_api/delete_wishlist
+DATA:
+    buyer_id,
+    password,
+    goods_id,
     (option)
 RESPONSE:
 

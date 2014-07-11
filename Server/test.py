@@ -41,5 +41,13 @@ add_goods_data = {
     #"photo"
 }
 
-r = requests.post(add_account_url, data = add_account_data)
+get_transaction_array_url = "http://localhost:8000/json_api/get_transaction_array/"
+get_transaction_array_data = {
+    "account_id": 1,
+    "password": "123",
+    "account_type": 0,
+    #"photo"
+}
+
+r = requests.post(get_transaction_array_url, data = get_transaction_array_data)
 print r.content

@@ -7,6 +7,7 @@ from json_api.models import Account_Info, Goods_Info, Log_Info, Message_Info, Co
 import json
 import time
 from django.forms.models import model_to_dict
+from django.db.models import Q
 
 import helper
 
@@ -248,7 +249,7 @@ def transact_goods(request):
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
 
-        if account_type == 0:#seller
+        if account_type == '0':#seller
             goods = Goods_Info.objects.filter(id = goods_id, seller_id = seller_id)
         
             if goods.exists() == False:
@@ -265,7 +266,7 @@ def transact_goods(request):
                 return HttpResponse(json.dumps(success))
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
-        elif account_type == 1:#buyer
+        elif account_type == '1':#buyer
             goods = Goods_Info.objects.filter(seller_id = seller_id)
         
             if goods.exists() == False:
@@ -294,7 +295,7 @@ def transact_goods(request):
         pass
     finally:
         pass
-'''
+
 def get_transaction_array(request):
     try:
         account_id =  request.POST['account_id']
@@ -305,8 +306,40 @@ def get_transaction_array(request):
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
 
-        log = Log_Info.objects.filter()
-        #TODO
+        
+        if account_type == '0':#seller
+            
+            raw_sql = 'select * from json_api_log_info where goods_id in'
+            raw_sql = raw_sql+'(select id from json_api_goods_info where seller_id=%s)'%account_id
+            
+            print raw_sql
+            log_array = Log_Info.objects.raw(raw_sql)
+            
+            #无法直接使用getSuccessJson()
+            total = 0
+            for log in log_array:
+                total = total + 1
+            
+            data = {
+              'total':total,
+              'rows': [model_to_dict(item) for item in log_array]
+            }
+            success['data'] = data
+            json_data = json.dumps(success)
+
+            #print type(log_array)
+            return HttpResponse(json_data)
+        elif account_type == '1':#buyer
+            raw_sql = 'select * from json_api_log_info where goods_id in'
+            raw_sql = raw_sql+'(select id from json_api_goods_info where buyer_id = %s)'%account_id
+            
+            log_array = Log_Info.objects.raw(raw_sql)
+            
+            return HttpResponse(getSuccessJson(log_array))
+        else:
+            error['error_type'] = -4
+            return HttpResponse(error)
+        
     except Exception, e:
         print e
         return HttpResponse(json.dumps(error))
@@ -314,7 +347,150 @@ def get_transaction_array(request):
         pass
     finally:
         pass
-'''
+
+def add_comment(request):
+    try:
+        account_id =  request.POST['account_id']
+        password = request.POST['password']
+        goods_id = request.POST['goods_id']
+        content = request.POST['content']
+
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        if Goods_Info.objects.filter(id = goods_id).exists() == False:
+            error['error_type'] = -3
+            return HttpResponse(json.dumps(error))
+
+        Comment_Info.objects.create(
+            account_id = account_id,
+            time = int(time.time()),
+            content = content,
+            )
+
+        return HttpResponse(json.dumps(success))
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def get_comment_array(request):
+    try:
+        account_id =  request.POST['account_id']
+        password = request.POST['password']
+        goods_id = request.POST['goods_id']
+        
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        if Goods_Info.objects.filter(id = goods_id).exists() == False:
+            error['error_type'] = -3
+            return HttpResponse(json.dumps(error))
+
+        comment_array = Comment_Info.objects.filter(goods_id = goods_id)
+        return HttpResponse(getSuccessJson(comment_array))
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def add_wishlist():
+    try:
+        buyer_id =  request.POST['buyer_id']
+        password = request.POST['password']
+        goods_id = request.POST['goods_id']
+        #option
+
+        if Account_Info.validate_id(id = buyer_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        if Goods_Info.objects.filter(id = goods_id).exists() == False:
+            error['error_type'] = -3
+            return HttpResponse(json.dumps(error))
+
+        if Wish_List.objects.filter(goods_id = goods_id, account_id = buyer_id).exists():
+            error['error_type'] = -5
+            return HttpResponse(json.dumps(error))
+
+        Wish_List.objects.create(
+            account_id = buyer_id,
+            goods_id = goods_id,
+            time = int(time.time()),
+            payed = 0,
+            )
+
+        return HttpResponse(json.dumps(success))
+
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def get_wishlist():
+    try:
+        buyer_id =  request.POST['buyer_id']
+        password = request.POST['password']
+        #option
+
+        if Account_Info.validate_id(id = buyer_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        wish_list_array = Wish_List.objects.filter(account_id = buyer_id)
+        return HttpResponse(getSuccessJson(wish_list_array))
+
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def delete_wishlist():
+    try:
+        buyer_id =  request.POST['buyer_id']
+        password = request.POST['password']
+        goods_id = request.POST['goods_id']
+        #option
+
+        if Account_Info.validate_id(id = buyer_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        if Goods_Info.objects.filter(id = goods_id).exists() == False:
+            error['error_type'] = -3
+            return HttpResponse(json.dumps(error))
+
+        wish_list = Wish_List.objects.filter(goods_id = goods_id, account_id = buyer_id)
+        if wish_list.exists() == False:
+            error['error_type'] = -6
+            return HttpResponse(json.dumps(error))
+
+        wish_list.delete()
+
+        return HttpResponse(json.dumps(success))
+
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
 
 def test(request):
     
