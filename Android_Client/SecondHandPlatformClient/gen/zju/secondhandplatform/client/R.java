@@ -28,17 +28,36 @@ public final class R {
         public static final int navigation_drawer_width=0x7f040002;
     }
     public static final class drawable {
-        public static final int drawer_shadow=0x7f020000;
-        public static final int ic_drawer=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
+        public static final int banner_text=0x7f020000;
+        public static final int drawer_shadow=0x7f020001;
+        public static final int goods_img=0x7f020002;
+        public static final int ic_drawer=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int login_success=0x7f020005;
     }
     public static final class id {
-        public static final int action_example=0x7f080005;
-        public static final int action_settings=0x7f080004;
+        public static final int action_example=0x7f080015;
+        public static final int action_settings=0x7f080014;
+        public static final int button1=0x7f080009;
+        public static final int button2=0x7f08000a;
         public static final int container=0x7f080001;
         public static final int drawer_layout=0x7f080000;
+        public static final int editText1=0x7f080003;
+        public static final int editText2=0x7f08000e;
+        public static final int editText3=0x7f08000f;
+        public static final int editText4=0x7f080011;
+        public static final int editText5=0x7f080013;
+        public static final int expandableListView1=0x7f08000b;
+        public static final int imageView1=0x7f080006;
+        public static final int imageView2=0x7f08000d;
         public static final int navigation_drawer=0x7f080002;
-        public static final int section_label=0x7f080003;
+        public static final int searchView1=0x7f080004;
+        public static final int section_label=0x7f08000c;
+        public static final int textView1=0x7f080005;
+        public static final int textView2=0x7f080010;
+        public static final int textView3=0x7f080007;
+        public static final int textView4=0x7f080008;
+        public static final int textView5=0x7f080012;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -48,6 +67,9 @@ public final class R {
         public static final int fragment_personal_info=0x7f030004;
         public static final int fragment_record=0x7f030005;
         public static final int fragment_wish_list=0x7f030006;
+        public static final int login=0x7f030007;
+        public static final int login_success=0x7f030008;
+        public static final int regist=0x7f030009;
     }
     public static final class menu {
         public static final int global=0x7f070000;
@@ -56,14 +78,30 @@ public final class R {
     public static final class string {
         public static final int action_example=0x7f050008;
         public static final int action_settings=0x7f050009;
+        public static final int add_to_wishlist=0x7f05000d;
         public static final int app_name=0x7f050000;
+        public static final int banner_img_dscrp=0x7f050018;
+        public static final int banner_text=0x7f05000e;
+        public static final int email=0x7f050012;
+        public static final int goods_detail=0x7f05000c;
+        public static final int goods_img_dscrp=0x7f050017;
+        public static final int goods_name=0x7f05000a;
+        public static final int goods_price=0x7f05000b;
         public static final int home=0x7f050001;
+        public static final int login=0x7f050010;
         public static final int message_center=0x7f050005;
         public static final int navigation_drawer_close=0x7f050007;
         public static final int navigation_drawer_open=0x7f050006;
+        public static final int password=0x7f050013;
+        public static final int password_again=0x7f050014;
+        public static final int password_hint=0x7f050016;
         public static final int personal_info=0x7f050004;
-        public static final int record=0x7f050003;
-        public static final int wish_list=0x7f050002;
+        public static final int record=0x7f050002;
+        public static final int regist=0x7f05000f;
+        public static final int regist_success_dscrp=0x7f050019;
+        public static final int username=0x7f050011;
+        public static final int username_hint=0x7f050015;
+        public static final int wish_list=0x7f050003;
     }
     public static final class style {
         /** 
