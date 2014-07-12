@@ -557,7 +557,7 @@ def get_message(request):
 
         message = Message_Info.objects.filter(message_id = message_id)
         if message_id.exists() == False:
-            error['error_type'] = 
+            error['error_type'] = -8
             return HttpResponse(json.dumps(error))
 
         return HttpResponse(getSuccessJson(message))
