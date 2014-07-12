@@ -84,7 +84,10 @@ public class Json {
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} finally {
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
 				if (null != httpUrlConnection)
 					httpUrlConnection.disconnect();
 			}
