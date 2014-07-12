@@ -2,8 +2,9 @@
 import json
 import requests
 
+url_prefix = "http://10.180.38.137:8000/"
 
-add_account_url = "http://localhost:8000/json_api/add_account/"
+add_account_url = "json_api/add_account/"
 add_account_data = {
     "name": u"小黄",
     "email": u"kunhuang110@gmail.com",
@@ -11,19 +12,19 @@ add_account_data = {
     "phone": "1234",
 }
 
-get_account_id_url = "http://localhost:8000/json_api/get_account_id/"
+get_account_id_url = "json_api/get_account_id/"
 get_account_id_data = {
     "email": u"kunhuang110@gmail.com",
     "password": "123",
 }
 
-get_account_info_url = "http://localhost:8000/json_api/get_account_info/"
+get_account_info_url = "json_api/get_account_info/"
 get_account_info_data = {
     "account_id": 1,
     "password": "123",
 }
 
-edit_account_info_url = "http://localhost:8000/json_api/edit_account_info/"
+edit_account_info_url = "json_api/edit_account_info/"
 edit_account_info_data = {
     "account_id": 1,
     "password": "123",
@@ -31,7 +32,7 @@ edit_account_info_data = {
     "phone": "1111"
 }
 
-add_goods_url = "http://localhost:8000/json_api/add_goods/"
+add_goods_url = "json_api/add_goods/"
 add_goods_data = {
     "seller_id": 1,
     "password": "123",
@@ -41,7 +42,7 @@ add_goods_data = {
     #"photo"
 }
 
-get_transaction_array_url = "http://localhost:8000/json_api/get_transaction_array/"
+get_transaction_array_url = "json_api/get_transaction_array/"
 get_transaction_array_data = {
     "account_id": 1,
     "password": "123",
@@ -49,5 +50,5 @@ get_transaction_array_data = {
     #"photo"
 }
 
-r = requests.post(get_account_info_url, data = get_account_info_data)
-print r.content
+r = requests.post(url_prefix + get_account_info_url, get_account_info_data)
+print(r.content)

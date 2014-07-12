@@ -10,7 +10,7 @@ from django.forms.models import model_to_dict
 from django.db.models import Q
 
 import helper
-
+    
 error = {
     'success': 0,
     'error_type': 0, #Unknown Error
@@ -18,7 +18,6 @@ error = {
 success = {
     'success': 1,
 }
-
 def getSuccessJson(models):
     data = {
               'total':len(models),
