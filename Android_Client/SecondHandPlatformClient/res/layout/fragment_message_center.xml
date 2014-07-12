@@ -15,7 +15,7 @@
         android:layout_height="30dp" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/searchText"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -23,7 +23,7 @@
             android:inputType="text" />
 
         <SearchView
-            android:id="@+id/searchView1"
+            android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" >
 
@@ -38,7 +38,7 @@
         android:padding="0dp" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/goodsDetail"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
             android:background="#4fc0b5" />
@@ -49,7 +49,7 @@
             android:padding="0dp" >
 
             <ExpandableListView
-                android:id="@+id/expandableListView1"
+                android:id="@+id/readMsgList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

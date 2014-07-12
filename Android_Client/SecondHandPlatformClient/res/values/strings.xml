@@ -27,5 +27,18 @@
     <string name="goods_img_dscrp">商品图片</string>
     <string name="banner_img_dscrp">二手跳蚤平台</string>
     <string name="regist_success_dscrp">注册成功</string>
+    <string name="seller_name">卖家：XX</string>
+    <string name="goods_detail_content">这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情</string>
+    <string name="goods_detail_comment">商品评论</string>
+    <string name="goods_comment_content">这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论</string>
+    <string name="user_email">用户注册邮箱</string>
+    <string name="edit">编辑</string>
+    <string name="password_change">修改密码</string>
+    <string name="buylist">买入清单</string>
+    <string name="selllist">卖出清单</string>
+    <string name="buy_date">2014-7-11</string>
+    <string name="buy_or_bought">买入</string>
+    <string name="add_new_good">添加商品</string>
+    <string name="buynow">现在购买</string>
 
 </resources>

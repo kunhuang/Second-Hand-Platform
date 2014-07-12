@@ -491,7 +491,83 @@ def delete_wishlist():
     finally:
         pass
 
+def send_message(request):
+    try:
+        account_id =  request.POST['account_id']
+        password = request.POST['password']
+        recv_account_id = request.POST['recv_account_id']
+        subject = request.POST['subject']
+        content = request.POST['contet']
 
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        if Account_Info.objects.filter(id == recv_account_id).exists() == False:
+            error['error_type'] = -7
+            return HttpResponse(json.dumps(error))
+
+        Message_Info.objects.create(
+            send_account_id = account_id,
+            recv_account_id = recv_account_id,
+            time = int(time.time()),
+            subject = subject,
+            content = content,
+            state = 0,
+            )
+        
+        return HttpResponse(json.dumps(success))
+
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def get_message_array(request):
+    try:
+        account_id =  request.POST['account_id']
+        password = request.POST['password']
+        
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        message_array = Message_Info.objects.filter(recv_account_id = account_id)
+        return HttpResponse(getSuccessJson(message_array))
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def get_message(request):
+    try:
+        account_id =  request.POST['account_id']
+        password = request.POST['password']
+        message_id = request.POST['message_id']
+
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
+
+        message = Message_Info.objects.filter(message_id = message_id)
+        if message_id.exists() == False:
+            error['error_type'] = -8
+            return HttpResponse(json.dumps(error))
+
+        return HttpResponse(getSuccessJson(message))
+    except Exception, e:
+        print e
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
 def test(request):
     
     '''goods = Goods_Info.objects.create(
