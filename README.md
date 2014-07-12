@@ -38,7 +38,7 @@ RESPONSE:
 *返回账户信息
 URL: POST /json_api/get_account_info
 DATA:
-    email,
+    account_id,
     password
 RESPONSE
     成功:{"success": 1, }
@@ -47,7 +47,7 @@ RESPONSE
 *修改账户信息
 URL: POST /json_api/edit_account_info
 DATA:
-    email = 
+    account_id = 
     password = 
     (name) = 
     (new_password) = 

@@ -19,13 +19,13 @@ get_account_id_data = {
 
 get_account_info_url = "http://localhost:8000/json_api/get_account_info/"
 get_account_info_data = {
-    "email": u"kunhuang110@gmail.com",
+    "account_id": 1,
     "password": "123",
 }
 
 edit_account_info_url = "http://localhost:8000/json_api/edit_account_info/"
 edit_account_info_data = {
-    "email": u"kunhuang110@gmail.com",
+    "account_id": 1,
     "password": "123",
     "name": u"小黄",
     "phone": "1111"
@@ -49,5 +49,5 @@ get_transaction_array_data = {
     #"photo"
 }
 
-r = requests.post(add_account_url, data = add_account_data)
+r = requests.post(get_account_info_url, data = get_account_info_data)
 print r.content

@@ -70,13 +70,13 @@ def get_account_id(request):
 
 def get_account_info(request):
     try:
-        email = request.POST['email']
+        account_id = request.POST['account_id']
         password = request.POST['password']
 
-        account_id = Account_Info.validate_email(email = email, password = password)
-        if account_id == False:
+        if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
+        
         else:
             account_info_array = Account_Info.objects.filter(id = account_id)
             return HttpResponse(getSuccessJson(account_info_array))
@@ -86,17 +86,17 @@ def get_account_info(request):
 
 def edit_account_info(request):
     try:
-        email = request.POST['email']
+        account_id = request.POST['account_id']
         password = request.POST['password']
         
         phone = request.POST.get('phone')
         new_password = request.POST.get('new_password')
         name = request.POST.get('name')
 
-        account_id = Account_Info.validate_email(email = email, password = password)
-        if account_id == False:
+        if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
+        
         else:
             account_info = Account_Info.objects.get(id = account_id)
             if phone != None:
