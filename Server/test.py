@@ -49,5 +49,5 @@ get_transaction_array_data = {
     #"photo"
 }
 
-r = requests.post(get_transaction_array_url, data = get_transaction_array_data)
+r = requests.post(add_account_url, data = add_account_data)
 print r.content
