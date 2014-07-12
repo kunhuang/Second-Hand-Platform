@@ -17,14 +17,12 @@ public class PersonalInfo extends Fragment {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private static ClientApp clientApp;
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PersonalInfo newInstance(int sectionNumber,ClientApp app) {
-        	clientApp=app;
+        public static PersonalInfo newInstance(int sectionNumber) {
             PersonalInfo fragment = new PersonalInfo();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -39,9 +37,9 @@ public class PersonalInfo extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_personal_info, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
  //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            textView.setText("This is personal info");
+ //           textView.setText("This is personal info");
             return rootView;
         }
 

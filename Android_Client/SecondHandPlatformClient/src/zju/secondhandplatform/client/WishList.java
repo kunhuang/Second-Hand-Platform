@@ -9,6 +9,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,14 +26,12 @@ public class WishList extends Fragment {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private static ClientApp clientApp;
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static WishList newInstance(int sectionNumber,ClientApp app) {
-        	clientApp=app;
+        public static WishList newInstance(int sectionNumber) {
             WishList fragment = new WishList();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -41,14 +40,7 @@ public class WishList extends Fragment {
         }
 
         public WishList() {    
-        	if(clientApp.getId()==-1){
-        		Intent intent = new Intent();
-                intent.setClass(this.getActivity(), Login.class);
-                startActivityForResult(intent, 0);
-        	}
-        	else{
-        		
-        	}
+        	
         }
 
         @Override
@@ -59,6 +51,25 @@ public class WishList extends Fragment {
  //           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
  //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
 //            textView.setText("This is WishList");
+        	
+        	ClientApp clientApp=(ClientApp)getActivity().getApplicationContext();
+        	if(clientApp.getId()==-1){
+        		Intent intent = new Intent();
+        		Context context;
+        		try{
+        			context=getActivity();        			
+        	        int id=clientApp.getId();
+        			intent.setClass(context, Login.class);
+        			startActivity(intent);
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}
+        	
+        	}
+        	else{
+        		
+        	}
+        	
             return rootView;
         }
 
