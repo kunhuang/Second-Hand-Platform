@@ -17,12 +17,14 @@ public class MessageCenter extends Fragment {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static ClientApp clientApp;
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static MessageCenter newInstance(int sectionNumber) {
+        public static MessageCenter newInstance(int sectionNumber,ClientApp app) {
+        	clientApp=app;
             MessageCenter fragment = new MessageCenter();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);

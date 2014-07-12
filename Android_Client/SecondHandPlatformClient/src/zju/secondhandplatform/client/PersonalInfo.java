@@ -17,12 +17,14 @@ public class PersonalInfo extends Fragment {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static ClientApp clientApp;
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PersonalInfo newInstance(int sectionNumber) {
+        public static PersonalInfo newInstance(int sectionNumber,ClientApp app) {
+        	clientApp=app;
             PersonalInfo fragment = new PersonalInfo();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);

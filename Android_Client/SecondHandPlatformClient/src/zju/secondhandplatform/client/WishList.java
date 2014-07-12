@@ -24,12 +24,14 @@ public class WishList extends Fragment {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private static ClientApp clientApp;
 
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static WishList newInstance(int sectionNumber) {
+        public static WishList newInstance(int sectionNumber,ClientApp app) {
+        	clientApp=app;
             WishList fragment = new WishList();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -37,9 +39,7 @@ public class WishList extends Fragment {
             return fragment;
         }
 
-        public WishList() {
-        	ClientApp clientApp = ((ClientApp)this.getActivity().getApplicationContext());  
-    
+        public WishList() {    
         	List<NameValuePair> params = new ArrayList<NameValuePair>();
     		params.add(new BasicNameValuePair("email", "12345678@qq.com"));
     		params.add(new BasicNameValuePair("password", "123456"));
@@ -48,7 +48,7 @@ public class WishList extends Fragment {
     		try {
     			int success=json.getJsonObj().getInt("success");
     			if(success==1){
-    				clientApp.setId(json.getJsonObj().getInt("id"));        			
+ //       			clientApp.setId(json.getJsonObj().getInt("id"));   			
     			}
     			else {
         			int error_type=json.getJsonObj().getInt("error_type");
@@ -64,9 +64,9 @@ public class WishList extends Fragment {
                 Bundle savedInstanceState) {
         	View rootView = inflater.inflate(R.layout.login, container, false);
  //           View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+ //           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
  //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            textView.setText("This is WishList");
+//            textView.setText("This is WishList");
             return rootView;
         }
 

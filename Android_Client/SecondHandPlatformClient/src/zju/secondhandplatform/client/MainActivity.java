@@ -35,6 +35,9 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        clientApp = (ClientApp)getApplication();
+        
         setContentView(R.layout.activity_main); 
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
@@ -46,7 +49,7 @@ public class MainActivity extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
         
-//        clientApp = (ClientApp)getApplication();
+  
     }
 
     @Override
@@ -59,31 +62,28 @@ public class MainActivity extends Activity
         
         switch (position+1) {
         case 1:
-//            fragmentManager.beginTransaction()
-//            .replace(R.id.container, Home.newInstance(position + 1,clientApp))
-//            .commit();
             fragmentManager.beginTransaction()
-            .replace(R.id.container, new Home(position + 1,clientApp))
+            .replace(R.id.container, Home.newInstance(position + 1,clientApp))
             .commit();
             break;
         case 2:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, WishList.newInstance(position + 1))
+            .replace(R.id.container, WishList.newInstance(position + 1,clientApp))
             .commit();
             break;
         case 3:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, Record.newInstance(position + 1))
+            .replace(R.id.container, Record.newInstance(position + 1,clientApp))
             .commit();
             break;
         case 4:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, PersonalInfo.newInstance(position + 1))
+            .replace(R.id.container, PersonalInfo.newInstance(position + 1,clientApp))
             .commit();
             break;
         case 5:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, MessageCenter.newInstance(position + 1))
+            .replace(R.id.container, MessageCenter.newInstance(position + 1,clientApp))
             .commit();
             break;
         }

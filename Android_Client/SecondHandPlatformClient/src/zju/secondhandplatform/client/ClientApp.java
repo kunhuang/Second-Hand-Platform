@@ -5,7 +5,7 @@ import android.app.Application;
 public class ClientApp extends Application {
 
     private String email = "";
-    private int id=0;
+    private int id=-1;
     private String password = "";
     
     public String getEmail() {
