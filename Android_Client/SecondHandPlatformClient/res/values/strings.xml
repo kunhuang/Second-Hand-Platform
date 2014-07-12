@@ -40,5 +40,12 @@
     <string name="buy_or_bought">买入</string>
     <string name="add_new_good">添加商品</string>
     <string name="buynow">现在购买</string>
+    <string name="comment">评价</string>
+    <string name="commentContent">输入商品评价...</string>
+    <string name="submit">提交</string>
+    <string name="goods_price_info">商品价格</string>
+    <string name="goods_img">商品图片</string>
+    <string name="goods_description">商品描述</string>
+    <string name="choose_img">选择...</string>
 
 </resources>
