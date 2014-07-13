@@ -2,6 +2,8 @@ package zju.secondhandplatform.client;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,9 +39,21 @@ public class MessageCenter extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_message_center, container, false);
- //           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
- //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
- //           textView.setText("This is message center");
+
+        	ClientApp clientApp=(ClientApp)getActivity().getApplicationContext();
+        	if(clientApp.getId()==-1){       		
+        		try{
+        			Intent intent = new Intent();
+        			intent.setClass(getActivity(), Login.class);
+        			startActivity(intent);
+        		}catch(Exception e){
+        			e.printStackTrace();
+        		}        	
+        	}
+        	else{
+        		
+        	}
+        	
             return rootView;
         }
 

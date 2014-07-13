@@ -46,29 +46,21 @@ public class WishList extends Fragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-        	View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
- //           View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
- //           TextView textView = (TextView) rootView.findViewById(R.id.section_label);
- //           textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-//            textView.setText("This is WishList");
-        	
+        	        	
         	ClientApp clientApp=(ClientApp)getActivity().getApplicationContext();
-        	if(clientApp.getId()==-1){
-        		Intent intent = new Intent();
-        		Context context;
+        	if(clientApp.getId()==-1){       		
         		try{
-        			context=getActivity();        			
-        	        int id=clientApp.getId();
-        			intent.setClass(context, Login.class);
+        			Intent intent = new Intent();
+        			intent.setClass(getActivity(), Login.class);
         			startActivity(intent);
         		}catch(Exception e){
         			e.printStackTrace();
-        		}
+        		}        	
+        	}
         	
-        	}
-        	else{
-        		
-        	}
+        	View rootView = inflater.inflate(R.layout.fragment_wish_list, container, false);
+        	
+        	
         	
             return rootView;
         }
@@ -76,7 +68,11 @@ public class WishList extends Fragment {
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+            try{
             ((MainActivity) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
+            }catch(Exception e){
+            	e.printStackTrace();
+            }
         }
     }
