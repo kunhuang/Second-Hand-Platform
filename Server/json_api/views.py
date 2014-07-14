@@ -36,6 +36,8 @@ def add_account(request):
         email = request.POST['email']
         password = request.POST['password']
         phone = request.POST.get('phone')
+        if phone == None:
+            phone = ''
         r = Account_Info.add_account(
             name = name,
             email = email,
@@ -176,18 +178,29 @@ def get_goods_info(request):
 
 def get_goods_array(request):
     try:
-        seller_id =  request.POST['seller_id']
+        account_id =  request.POST['account_id']
         password = request.POST['password']
-        
-        if Account_Info.validate_id(id = seller_id, password = password) == False:
+        account_type = request.POST['account_type']
+        goods_num = request.POST.get('goods_num')
+
+        print goods_num
+        if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
 
-        goods_array = Goods_Info.objects.filter(seller_id = seller_id)
+        if account_type == '0':
+            goods_array = Goods_Info.objects.filter(seller_id = account_id)
+        elif account_type == '1':
+            goods_array = Goods_Info.objects.all()
+
+        if goods_num != None:
+            goods_array = goods_array.order_by('-id')[:goods_num]
+        
         return HttpResponse(getSuccessJson(goods_array))
     except Exception, e:
         print e
-        return HttpResponse(error)
+        error['error_type'] = 0
+        return HttpResponse(json.dumps(error))
     else:
         pass
     finally:

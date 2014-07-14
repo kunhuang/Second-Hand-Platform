@@ -2,7 +2,7 @@
 import json
 import requests
 
-url_prefix = "http://10.180.38.137:8000/"
+url_prefix = "http://10.180.46.93:8000/"
 
 add_account_url = "json_api/add_account/"
 add_account_data = {
@@ -50,5 +50,13 @@ get_transaction_array_data = {
     #"photo"
 }
 
-r = requests.post(url_prefix + get_account_info_url, get_account_info_data)
+get_goods_array_url = "json_api/get_goods_array/"
+get_goods_array_data = {
+    "account_id": 2,
+    "password": "121212",
+    "account_type": 1,
+    "goods_num": 5,
+}
+
+r = requests.post(url_prefix + get_goods_array_url, get_goods_array_data)
 print(r.content)
