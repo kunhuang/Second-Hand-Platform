@@ -1,0 +1,6 @@
+
+*.pyc
+
+Server/json_api/models.pyc
+
+Server/Server/settings.pyc

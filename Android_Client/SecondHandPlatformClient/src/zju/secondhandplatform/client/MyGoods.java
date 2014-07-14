@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -32,7 +34,8 @@ public class MyGoods extends ListFragment {
 	 */
 	private static final String ARG_SECTION_NUMBER = "section_number";
 
-	private ListView listView;
+	private Button addGoodsButton;
+//	private ListView listView;
 	private SimpleAdapter adapter;
 
 	/**
@@ -66,10 +69,11 @@ public class MyGoods extends ListFragment {
 		} else {
 			List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("seller_id", ""
+			params.add(new BasicNameValuePair("account_id", ""
 					+ clientApp.getId()));
 			params.add(new BasicNameValuePair("password", clientApp
 					.getPassword()));
+			params.add(new BasicNameValuePair("account_type", "0"));
 			Json json = new Json("/json_api/get_goods_array/", params);
 			try {
 				while (json.getJsonObj() == null) {
@@ -117,8 +121,18 @@ public class MyGoods extends ListFragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_seller_page,
 				container, false);
-		listView = (ListView) rootView.findViewById(android.R.id.list);
+		addGoodsButton = (Button) rootView.findViewById(R.id.sellerAddGoods);
+//		listView = (ListView) rootView.findViewById(android.R.id.list);
 
+		addGoodsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent();
+				intent.setClass(getActivity(), AddGoods.class);
+				startActivity(intent);		
+			}
+		});
+		
 		return rootView;
 	}
 
