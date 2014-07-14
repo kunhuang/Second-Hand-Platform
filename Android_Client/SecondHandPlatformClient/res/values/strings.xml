@@ -49,5 +49,9 @@
     <string name="goods_img">商品图片</string>
     <string name="goods_description">商品描述</string>
     <string name="choose_img">选择...</string>
+    <string name="on_shelf">上架</string>
+    <string name="edit_goods_info">编辑商品信息</string>
+    <string name="off_shelf">下架</string>
+    <string name="submit_comment">提交</string>
 
 </resources>

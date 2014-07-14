@@ -76,31 +76,6 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/goods_price" />
 
-                <Button
-                    android:id="@+id/homeAddList"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/homeGoodsPrice"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="left|center_vertical"
-                    android:text="@string/add_to_wishlist"
-                    android:textSize="12sp"
-                    android:width="50dp" />
-
-                <Button
-                    android:id="@+id/homeGoodsDetail"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignTop="@+id/editUsername"
-                    android:layout_below="@id/homeGoodsPrice"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@id/homeAddList"
-                    android:gravity="left|center_vertical"
-                    android:text="@string/goods_detail"
-                    android:textSize="12sp"
-                    android:width="50dp" />
-
             </RelativeLayout>
 
         </LinearLayout>

@@ -10,25 +10,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp" >
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
-
-        <SearchView
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" >
-        </SearchView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp" >
@@ -52,8 +33,8 @@
                 android:layout_height="match_parent" >
 
                 <TextView
-                    android:id="@+id/detailGoodsName"
-                    android:layout_width="fill_parent"
+                    android:id="@+id/sellerDetailGoodsName"
+                    android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="25dp"
@@ -61,34 +42,56 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/detailGoodsPrice"
+                    android:id="@+id/sellerDetailGoodsPrice"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/detailGoodsName"
+                    android:layout_below="@id/sellerDetailGoodsName"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/goods_price" />
 
-                <Button
-                    android:id="@+id/detailAddWishlist"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
+                <EditText
+                    android:id="@+id/searchText"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@id/detailGoodsPrice"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#accb12"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/add_to_wishlist"
-                    android:textSize="12sp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text" >
 
-                <TextView
-                    android:id="@+id/detailSellerName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/detailAddWishlist"
-                    android:layout_toRightOf="@+id/detailGoodsPrice"
-                    android:text="@string/seller_name" />
+                    <requestFocus />
+                </EditText>
+
+                <Button
+                    android:id="@+id/sellerDetailOnshelf"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/sellerDetailGoodsPrice"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/on_shelf" />
+
+                <Button
+                    android:id="@+id/sellerDetailOffshelf"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignBaseline="@id/sellerDetailOnshelf"
+                    android:layout_alignBottom="@id/sellerDetailOffshelf"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/sellerDetailOnshelf"
+                    android:text="@string/off_shelf" />
+
+                <Button
+                    android:id="@+id/sellerDetailEditGoodsInfo"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/sellerDetailOffshelf"
+                    android:layout_alignTop="@+id/sellerDetailGoodsName"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="@string/edit_goods_info"
+                    android:textSize="9sp" />
+
             </RelativeLayout>
         </LinearLayout>
 
@@ -137,6 +140,29 @@
                 android:text="@string/goods_detail_comment" />
 
             <!-- ListView控件 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/editComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+
+                <Button
+                    android:id="@+id/submitComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:text="@string/submit_comment"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
             <ListView
                 android:id="@+id/android:list"
                 android:layout_width="fill_parent"
