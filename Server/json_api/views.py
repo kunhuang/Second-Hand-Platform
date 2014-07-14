@@ -414,7 +414,7 @@ def get_comment_array(request):
     finally:
         pass
 
-def add_wishlist():
+def add_wishlist(request):
     try:
         buyer_id =  request.POST['buyer_id']
         password = request.POST['password']
@@ -450,7 +450,7 @@ def add_wishlist():
     finally:
         pass
 
-def get_wishlist():
+def get_wishlist(request):
     try:
         buyer_id =  request.POST['buyer_id']
         password = request.POST['password']
@@ -471,7 +471,7 @@ def get_wishlist():
     finally:
         pass
 
-def delete_wishlist():
+def delete_wishlist(request):
     try:
         buyer_id =  request.POST['buyer_id']
         password = request.POST['password']

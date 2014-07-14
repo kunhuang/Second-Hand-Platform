@@ -11,7 +11,8 @@ class Account_Info(models.Model):
 	sell_exp = models.IntegerField(max_length = 4)
 	buy_exp = models.IntegerField(max_length = 4)
 	phone = models.CharField(max_length = 11, default = 0)
-	
+	bank_card = models.IntegerField(default = 0)
+
 	@staticmethod
 	def validate_email(email, password):
 		try:
