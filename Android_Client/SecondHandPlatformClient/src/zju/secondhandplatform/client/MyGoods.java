@@ -11,6 +11,7 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,15 +21,19 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MyGoods extends Fragment {
+public class MyGoods extends ListFragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
 	private static final String ARG_SECTION_NUMBER = "section_number";
+
+	private ListView listView;
+	private SimpleAdapter adapter;
 
 	/**
 	 * Returns a new instance of this fragment for the given section number.
@@ -46,16 +51,9 @@ public class MyGoods extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-		View rootView = inflater.inflate(R.layout.fragment_seller_page,
-				container, false);
-		return rootView;
-	}
-
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);  
 		ClientApp clientApp = (ClientApp) getActivity().getApplicationContext();
 		if (clientApp.getId() == -1) {
 			try {
@@ -66,10 +64,7 @@ public class MyGoods extends Fragment {
 				e.printStackTrace();
 			}
 		} else {
-			ListView listView = (ListView) getView().findViewById(
-					R.id.goodsList);
 			List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
-
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("seller_id", ""
 					+ clientApp.getId()));
@@ -93,13 +88,14 @@ public class MyGoods extends Fragment {
 					map.put("price", price);
 					data.add(map);
 				}
-				SimpleAdapter adapter = new SimpleAdapter(this.getActivity(),
-						data, R.layout.goods_list, new String[] { "goodsId",
-								"goodsName", "price" }, new int[] {
-								R.id.imageView1, R.id.sellerGoodsName,
-								R.id.sellerGoodsPrice });
+				adapter = new SimpleAdapter(this.getActivity(), data,
+				R.layout.goods_item, new String[] { 
+						"goodsName", "price" }, new int[] {
+						R.id.sellerGoodsName,
+						R.id.sellerGoodsPrice });
 				try {
-					listView.setAdapter(adapter);
+					// listView.setAdapter(adapter);
+					setListAdapter(adapter);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -112,6 +108,36 @@ public class MyGoods extends Fragment {
 				e.printStackTrace();
 			}
 		}
+
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_seller_page,
+				container, false);
+		listView = (ListView) rootView.findViewById(android.R.id.list);
+
+		return rootView;
+	}
+
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+
+		HashMap<String, Object> view = (HashMap<String, Object>) l
+				.getItemAtPosition(position);
+		String goodsId = view.get("goodsId").toString();
+
+		Intent intent = new Intent();
+		intent.setClass(this.getActivity(), GoodsDetail.class);
+		intent.putExtra("GoodsId", goodsId);
+		startActivity(intent);		
+	}
+
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override

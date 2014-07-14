@@ -24,9 +24,7 @@
             android:id="@+id/searchButton"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent" >
-
         </SearchView>
-
     </LinearLayout>
 
     <LinearLayout
@@ -91,9 +89,7 @@
                     android:layout_above="@+id/detailAddWishlist"
                     android:layout_toRightOf="@+id/detailGoodsPrice"
                     android:text="@string/seller_name" />
-
             </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -119,7 +115,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/goods_detail_content" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -141,15 +136,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/goods_detail_comment" />
 
-            <TextView
-                android:id="@+id/detailCommentContent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="@string/goods_comment_content" />
+            <!-- ListView控件 -->
+            <ListView
+                android:id="@+id/android:list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
 
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

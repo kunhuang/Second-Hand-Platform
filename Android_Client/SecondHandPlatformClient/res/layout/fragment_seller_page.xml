@@ -31,7 +31,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp" >
 
@@ -54,7 +54,7 @@
     
     <!-- ListView控件 -->  
 	<ListView
-	    android:id="@+id/goodsList"     
+	    android:id="@+id/android:list"     
     	android:layout_width="fill_parent"   
     	android:layout_height="fill_parent"   
     />  
