@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -33,6 +34,9 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+//        Intent intent=getIntent();
+//        int sectionNumber=intent.getIntExtra("SECTION_NUMBER", 1);
         
         setContentView(R.layout.activity_main); 
 
@@ -64,23 +68,35 @@ public class MainActivity extends Activity
             break;
         case 2:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, WishList.newInstance(position + 1))
+            .replace(R.id.container, MyGoods.newInstance(position + 1))
             .commit();
             break;
         case 3:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, Record.newInstance(position + 1))
+            .replace(R.id.container, WishList.newInstance(position + 1))
             .commit();
             break;
         case 4:
             fragmentManager.beginTransaction()
-            .replace(R.id.container, PersonalInfo.newInstance(position + 1))
+            .replace(R.id.container, Record.newInstance(position + 1))
             .commit();
             break;
         case 5:
             fragmentManager.beginTransaction()
+            .replace(R.id.container, PersonalInfo.newInstance(position + 1))
+            .commit();
+            break;
+        case 6:
+            fragmentManager.beginTransaction()
             .replace(R.id.container, MessageCenter.newInstance(position + 1))
             .commit();
+            break;
+        case 7:
+        	ClientApp clientApp=(ClientApp)getApplicationContext();
+        	clientApp.setId(-1);
+        	Intent intent = new Intent();
+			intent.setClass(MainActivity.this, MainActivity.class);
+			startActivity(intent);
             break;
         }
     }
@@ -91,16 +107,22 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.home);
                 break;
             case 2:
-                mTitle = getString(R.string.wish_list);
+                mTitle = getString(R.string.my_goods);
                 break;
             case 3:
-                mTitle = getString(R.string.record);
+                mTitle = getString(R.string.wish_list);
                 break;
             case 4:
-                mTitle = getString(R.string.personal_info);
+                mTitle = getString(R.string.record);
                 break;
             case 5:
+                mTitle = getString(R.string.personal_info);
+                break;
+            case 6:
                 mTitle = getString(R.string.message_center);
+                break;
+            case 7:
+                mTitle = getString(R.string.logout);
                 break;
         }
     }

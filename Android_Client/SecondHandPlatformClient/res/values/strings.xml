@@ -3,10 +3,12 @@
 
     <string name="app_name">二手交易平台</string>
     <string name="home">主页</string>
+    <string name="my_goods">我的商品</string>
     <string name="record">记录</string>
     <string name="wish_list">心愿单</string>
     <string name="personal_info">个人信息</string>
     <string name="message_center">消息中心</string>
+    <string name="logout">注销</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">主页</string>
@@ -40,5 +42,12 @@
     <string name="buy_or_bought">买入</string>
     <string name="add_new_good">添加商品</string>
     <string name="buynow">现在购买</string>
+    <string name="comment">评价</string>
+    <string name="commentContent">输入商品评价...</string>
+    <string name="submit">提交</string>
+    <string name="goods_price_info">商品价格</string>
+    <string name="goods_img">商品图片</string>
+    <string name="goods_description">商品描述</string>
+    <string name="choose_img">选择...</string>
 
 </resources>

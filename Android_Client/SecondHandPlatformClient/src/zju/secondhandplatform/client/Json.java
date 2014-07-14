@@ -24,7 +24,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class Json {
-	private String httpurl = "http://10.180.38.137:8000";
+	private String httpurl = "http://10.214.11.160:8000";
 	private List<NameValuePair> postParams;
 	private String data = "";
 	private JSONObject jsonObj = null;
@@ -58,7 +58,7 @@ public class Json {
 			try {
 				httpPost.setEntity(new UrlEncodedFormEntity(postParams,
 						HTTP.UTF_8));
-				Log.d(TAG, "About to connect");
+				Log.d(TAG, "About to connect to "+ httpurl);
 				httpResponse = new DefaultHttpClient().execute(httpPost);
 				Log.d(TAG, "Connectted");
 				if (httpResponse.getStatusLine().getStatusCode() == 200) {
