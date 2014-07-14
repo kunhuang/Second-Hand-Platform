@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^add_goods?/$', views.add_goods, name='add_goods'),
     url(r'^get_goods_info?/$', views.get_goods_info, name='get_goods_info'),
     url(r'^get_goods_array?/$', views.get_goods_array, name='get_goods_array'),
+    url(r'^get_my_goods_array?/$', views.get_my_goods_array, name='get_my_goods_array'),
     url(r'^edit_goods_info?/$', views.edit_goods_info, name='edit_goods_info'),
     
     

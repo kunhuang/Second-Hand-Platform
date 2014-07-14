@@ -70,13 +70,11 @@ RESPONSE:
 *返回单个商品信息
 URL: POST /json_api/get_goods_info
 DATA:
-    seller_id,
-    password,
     goods_id,
 RESPONSE:
 
 *查看商品（兼容seller端和buyer端，返回多个商品信息，对于seller，相当于返回“我的物品”）
-URL: POST /json_api/get_goods_array
+URL: POST /json_api/get_my_goods_array
 DATA:
     account_id,
     password,
@@ -85,6 +83,11 @@ DATA:
     (option),
 RESPONSE:
 
+*首页商品
+URL: POST /json_api/get_goods_array
+DATA:
+    (goods_num),
+RESPONSE:
 
 *修改商品信息
 URL: POST /json_api/edit_goods_info
@@ -128,8 +131,6 @@ RESPONSE:
 *查看商品评论
 URL: POST /json_api/get_comment_array
 DATA:
-    account_id,
-    password,
     goods_id,
     (option)
 RESPONSE:

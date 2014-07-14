@@ -23,7 +23,12 @@ def getSuccessJson(models):
               'total':len(models),
               'rows': [model_to_dict(item) for item in models ]
             }
-    success['data'] = data
+
+    success = {
+        'success': 1,
+        'data': data,
+    }
+
     json_data = json.dumps(success)
     return json_data
 
@@ -38,20 +43,24 @@ def add_account(request):
         phone = request.POST.get('phone')
         if phone == None:
             phone = ''
-        r = Account_Info.add_account(
+
+        if Account_Info.objects.filter(email = email).exists():
+            error['error_type'] = -2
+            return HttpResponse(json.dumps(error))
+
+        Account_Info.objects.create(
             name = name,
             email = email,
             password = password,
             phone = phone,
+            sell_exp = 0,
+            buy_exp = 0,
             )
-        print r
-        if r == True:
-            return HttpResponse(json.dumps(success))
-        else:
-            error['error_type'] = r
-            return HttpResponse(json.dumps(error))
+        return HttpResponse(json.dumps(success))
+
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
 
 def get_account_id(request):
@@ -66,7 +75,9 @@ def get_account_id(request):
         else:
             success['id'] = account_id
             return HttpResponse(json.dumps(success))
-    except:
+    except Exception, e:
+        print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
 
 def get_account_info(request):
@@ -83,6 +94,7 @@ def get_account_info(request):
             return HttpResponse(getSuccessJson(account_info_array))
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
 
 def edit_account_info(request):
@@ -110,6 +122,7 @@ def edit_account_info(request):
             return HttpResponse(json.dumps(success))
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
 
 def add_goods(request):
@@ -131,14 +144,14 @@ def add_goods(request):
         goods = Goods_Info.objects.create(
             name = name,
             description = description,
-            seller_id = seller_id,
+            seller_id = Account_Info.objects.get(id = seller_id),
             state = 'I',
             pure_price = pure_price,
-            buyer_id = 0,
+            #buyer_id = 0,
             )
         
         log = Log_Info.objects.create(
-            goods_id = goods.id,
+            goods_id = goods,
             time = int(time.time()),
             type = 'I',
             )
@@ -149,6 +162,7 @@ def add_goods(request):
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -157,26 +171,29 @@ def add_goods(request):
 
 def get_goods_info(request):
     try:
-        seller_id =  request.POST['seller_id']
-        password = request.POST['password']
+        #seller_id =  request.POST['seller_id']
+        #password = request.POST['password']
         goods_id = request.POST['goods_id']
 
+        '''
         if Account_Info.validate_id(id = seller_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
+        '''
 
         goods_array = Goods_Info.objects.filter(id = goods_id)
         return HttpResponse(getSuccessJson(goods_array))
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
     finally:
         pass
 
-def get_goods_array(request):
+def get_my_goods_array(request):
     try:
         account_id =  request.POST['account_id']
         password = request.POST['password']
@@ -195,6 +212,24 @@ def get_goods_array(request):
 
         if goods_num != None:
             goods_array = goods_array.order_by('-id')[:goods_num]
+        
+        return HttpResponse(getSuccessJson(goods_array))
+    except Exception, e:
+        print e
+        error['error_type'] = 0
+        return HttpResponse(json.dumps(error))
+    else:
+        pass
+    finally:
+        pass
+
+def get_goods_array(request):
+    try:
+        goods_num = request.POST.get('goods_num')
+
+        goods_array = Goods_Info.objects.all().order_by('-id')
+        if goods_num != None:
+            goods_array = goods_array[:goods_num]
         
         return HttpResponse(getSuccessJson(goods_array))
     except Exception, e:
@@ -225,6 +260,7 @@ def edit_goods_info(request):
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
 
+        goods = Goods_Info.objects.get(id = goods_id)
         if pure_price != None and goods.state != 'I':
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
@@ -235,15 +271,17 @@ def edit_goods_info(request):
             goods.description = description
         goods.save()
 
-        log = Goods_Info.objects.create(
-            goods_id = goods.id,
+        log = Log_Info.objects.create(
+            goods_id = Goods_Info.objects.get(id = goods.id),
             time = int(time.time()),
-            type = 'U'
+            type = 'U',
             )
+
         return HttpResponse(json.dumps(success))
     except Exception, e:
         print e
-        return HttpResponse(json.dumps(error_type))
+        error['error_type'] = 0
+        return HttpResponse(json.dumps(error))
     else:
         pass
     finally:
@@ -271,7 +309,7 @@ def transact_goods(request):
             if (type == 'O' or type == 'C') and goods.type == 'I':
                 goods.type = type
                 log = Log_Info.objects.create(
-                    goods_id = goods.id,
+                    goods_id = goods,
                     time = int(time.time()),
                     type = type,
                     )
@@ -288,7 +326,7 @@ def transact_goods(request):
             if (type == 'B') and goods.type == 'O':
                 goods.type = type
                 log = Log_Info.objects.create(
-                    goods_id = goods.id,
+                    goods_id = goods,
                     time = int(time.time()),
                     type = type,
                     )
@@ -302,6 +340,7 @@ def transact_goods(request):
             return HttpResponse(json.dumps(error)) 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -354,6 +393,7 @@ def get_transaction_array(request):
         
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -376,7 +416,8 @@ def add_comment(request):
             return HttpResponse(json.dumps(error))
 
         Comment_Info.objects.create(
-            account_id = account_id,
+            account_id = Account_Info.objects.get(id = account_id),
+            goods_id = Goods_Info.objects.get(id = goods_id),
             time = int(time.time()),
             content = content,
             )
@@ -384,6 +425,7 @@ def add_comment(request):
         return HttpResponse(json.dumps(success))
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -392,14 +434,16 @@ def add_comment(request):
 
 def get_comment_array(request):
     try:
-        account_id =  request.POST['account_id']
-        password = request.POST['password']
+        #account_id =  request.POST['account_id']
+        #password = request.POST['password']
         goods_id = request.POST['goods_id']
         
+        '''
         if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
-
+        '''
+        
         if Goods_Info.objects.filter(id = goods_id).exists() == False:
             error['error_type'] = -3
             return HttpResponse(json.dumps(error))
@@ -408,6 +452,7 @@ def get_comment_array(request):
         return HttpResponse(getSuccessJson(comment_array))
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -434,7 +479,7 @@ def add_wishlist(request):
             return HttpResponse(json.dumps(error))
 
         Wish_List.objects.create(
-            account_id = buyer_id,
+            account_id = Account_Info.objects.get(id = buyer_id),
             goods_id = goods_id,
             time = int(time.time()),
             payed = 0,
@@ -444,6 +489,7 @@ def add_wishlist(request):
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -465,6 +511,7 @@ def get_wishlist(request):
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -497,6 +544,7 @@ def delete_wishlist(request):
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -521,7 +569,7 @@ def send_message(request):
 
         Message_Info.objects.create(
             send_account_id = account_id,
-            recv_account_id = recv_account_id,
+            recv_account_id = Account_Info.objects.get(id = recv_account_id),
             time = int(time.time()),
             subject = subject,
             content = content,
@@ -532,6 +580,7 @@ def send_message(request):
 
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -575,6 +624,7 @@ def get_message(request):
         return HttpResponse(getSuccessJson(message))
     except Exception, e:
         print e
+        error['error_type'] = 0
         return HttpResponse(json.dumps(error))
     else:
         pass
@@ -590,7 +640,9 @@ def test(request):
         pure_price = 8000,
         )
     '''
-    return HttpResponse(json.dumps(success))
+
+    tmp = Wish_List.objects.select_related(depth = 3)
+    return HttpResponse(getSuccessJson(tmp))
     return HttpResponse(getJson(goods_info))
 
 def test2(request):
