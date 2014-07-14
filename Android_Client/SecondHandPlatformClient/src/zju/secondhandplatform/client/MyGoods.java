@@ -69,10 +69,11 @@ public class MyGoods extends ListFragment {
 		} else {
 			List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("seller_id", ""
+			params.add(new BasicNameValuePair("account_id", ""
 					+ clientApp.getId()));
 			params.add(new BasicNameValuePair("password", clientApp
 					.getPassword()));
+			params.add(new BasicNameValuePair("account_type", "0"));
 			Json json = new Json("/json_api/get_goods_array/", params);
 			try {
 				while (json.getJsonObj() == null) {

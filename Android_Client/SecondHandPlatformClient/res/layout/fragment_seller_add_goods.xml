@@ -34,7 +34,7 @@
                 android:layout_height="match_parent" >
 
                 <TextView
-                    android:id="@+id/commentGoodsName"
+                    android:id="@+id/addGoodsName"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -43,21 +43,21 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/commentGoodsPrice"
+                    android:id="@+id/addGoodsPrice"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/commentGoodsName"
+                    android:layout_below="@id/addGoodsName"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
                     android:text="@string/goods_price" />
 
                 <TextView
-                    android:id="@+id/commentSellerName"
+                    android:id="@+id/addSellerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/commentGoodsPrice"
-                    android:layout_alignBottom="@+id/commentGoodsPrice"
-                    android:layout_toRightOf="@+id/commentGoodsPrice"
+                    android:layout_alignBaseline="@+id/addGoodsPrice"
+                    android:layout_alignBottom="@+id/addGoodsPrice"
+                    android:layout_toRightOf="@+id/addGoodsPrice"
                     android:text="@string/seller_name" />
 
             </RelativeLayout>
