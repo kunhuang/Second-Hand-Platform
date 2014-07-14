@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -74,17 +76,22 @@ public class MyGoods extends ListFragment {
 			params.add(new BasicNameValuePair("password", clientApp
 					.getPassword()));
 			params.add(new BasicNameValuePair("account_type", "0"));
-			Json json = new Json("/json_api/get_goods_array/", params);
+			Json json = new Json("/json_api/get_my_goods_array/", params);
 			try {
 				while (json.getJsonObj() == null) {
 				}
 				int success = json.getJsonObj().getInt("success");
 
-				// if (success == 1) {
-				for (int i = 0; i < 10; i++) {
-					int goodsId = 1;
-					String goodsName = "商品名称";
-					String price = "50.00元";
+				//{"id":3,"data":{"total":1,"rows":[{"id":28,"buyer_id":"0","pure_price":400,"state":"I","seller_id":"3","description":"2013年","name":"显示屏"}]},"success":1}
+				 if (success == 1) {
+					 JSONObject jsonData=json.getJsonObj().getJSONObject("data");
+					 int total=jsonData.getInt("total");
+					 JSONArray rows = jsonData.getJSONArray("rows");
+				for (int i = 0; i < total; i++) {
+					JSONObject row = rows.getJSONObject(i);
+					int goodsId = row.getInt("id");
+					String goodsName = row.getString("name");
+					String price = row.getString("pure_price");
 
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("goodsId", goodsId);
@@ -104,9 +111,17 @@ public class MyGoods extends ListFragment {
 					e.printStackTrace();
 				}
 
-				// } else {
-				// int error_type = json.getJsonObj().getInt("error_type");
-				// }
+				} else {
+				 int error_type = json.getJsonObj().getInt("error_type");
+				 if (error_type == -5) {
+						Toast.makeText(this.getActivity().getApplicationContext(),
+								"已经加入心愿单）", Toast.LENGTH_SHORT)
+								.show();
+					} else {
+						Toast.makeText(this.getActivity().getApplicationContext(), "未知错误:错误代码"+error_type,
+								Toast.LENGTH_SHORT).show();
+					}
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -145,7 +160,7 @@ public class MyGoods extends ListFragment {
 		String goodsId = view.get("goodsId").toString();
 
 		Intent intent = new Intent();
-		intent.setClass(this.getActivity(), GoodsDetail.class);
+		intent.setClass(this.getActivity(), SellerGoodsDetail.class);
 		intent.putExtra("GoodsId", goodsId);
 		startActivity(intent);		
 	}

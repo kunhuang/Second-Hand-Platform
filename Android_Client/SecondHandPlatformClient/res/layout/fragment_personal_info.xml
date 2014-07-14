@@ -10,133 +10,119 @@
     android:paddingLeft="0dp"
     android:paddingTop="10dp" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp" >
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
-
-        <SearchView
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" >
-
-        </SearchView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/personalUserInfo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="0dp" >
+        android:layout_gravity="left"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/user_info"
+        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/goodsDetail"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="#4fc0b5" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:padding="0dp" >
+                <TextView
+                    android:id="@+id/personalUsername"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username" />
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/goods_img_dscrp"
-                android:src="@drawable/goods_img" />
+                <TextView
+                    android:id="@+id/personalUsernameContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username_eg" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp" >
 
                 <TextView
                     android:id="@+id/personalEmail"
-                    android:layout_width="fill_parent"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/user_email"
-                    android:textSize="20sp" />
+                    android:text="@string/email" />
 
                 <TextView
-                    android:id="@+id/personalUserName"
+                    android:id="@+id/personalEmailContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/personalEmail"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/username" />
+                    android:text="@string/email_eg" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp" >
+
+                <TextView
+                    android:id="@+id/personalCellphone"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cellphone" />
+
+                <TextView
+                    android:id="@+id/personalCellphoneContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cellphone_ex" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp" >
+
+                <TextView
+                    android:id="@+id/personalZfb"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zfb" />
+
+                <TextView
+                    android:id="@+id/personalZfbContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zfb_ex" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp" >
+
+                <TextView
+                    android:id="@+id/personalPw"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password" />
 
                 <Button
-                    android:id="@+id/personalEditPw"
-                    android:layout_width="75dp"
+                    android:id="@+id/personalPwContent"
+                    android:layout_width="80dp"
                     android:layout_height="30dp"
-                    android:layout_alignLeft="@+id/goodsPrice"
-                    android:layout_below="@id/personalUserName"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="left|center_vertical"
-                    android:height="20dp"
                     android:text="@string/password_change"
-                    android:textSize="12sp"
-                    android:width="50dp" />
+                    android:textSize="13sp" />
 
-                <Button
-                    android:id="@+id/personalEditUsername"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_alignBaseline="@+id/goodsPrice"
-                    android:layout_alignBottom="@+id/goodsPrice"
-                    android:layout_below="@id/personalEmail"
-                    android:layout_toRightOf="@id/personalUserName"
-                    android:gravity="left|center_vertical"
-                    android:text="@string/edit"
-                    android:textSize="12sp"
-                    android:width="50dp" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" >
+            </LinearLayout>
 
             <Button
-                android:id="@+id/personalBuyList"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginRight="10dp"
-                android:background="#636265"
-                android:text="@string/buylist"
-                android:textColor="#ffffff" />
-
-            <Button
-                android:id="@+id/personalSellList"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:background="#636265"
-                android:text="@string/selllist"
-                android:textColor="#ffffff" />
-
-        </LinearLayout>
-
-    </LinearLayout>
+                android:id="@+id/personalEdit"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="50dp"
+                android:background="#accb12"
+                android:text="@string/edit" />
 
 </LinearLayout>

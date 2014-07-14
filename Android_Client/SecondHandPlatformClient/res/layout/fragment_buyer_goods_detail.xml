@@ -37,53 +37,75 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="10dp"
                     android:text="@string/goods_name"
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/detailGoodsPrice"
-                    android:layout_width="80dp"
+                    android:id="@+id/detailGoodsPrice1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/detailGoodsPrice"
+                    android:layout_alignParentLeft="true"
                     android:layout_below="@id/detailGoodsName"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:text="@string/goods_price" />
+
+<TextView
+    android:id="@+id/detailGoodsPrice2"
+    android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@id/detailGoodsPrice1"
+    android:layout_below="@id/detailGoodsName"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_toRightOf="@id/detailGoodsPrice1"
+    android:text="@string/goods_price_ex" />
+
+<TextView
+    android:id="@+id/detailStatus1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@id/detailGoodsPrice1"
+    android:layout_below="@id/detailGoodsPrice1"
+    android:text="@string/status1" />
+
+                <TextView
+                    android:id="@+id/detailStatus2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/detailStatus1"
+                    android:layout_alignBottom="@+id/detailStatus1"
+                    android:layout_toRightOf="@+id/detailStatus1"
+                    android:text="@string/status2" />
 
                 <Button
                     android:id="@+id/detailAddWishlist"
                     android:layout_width="70dp"
                     android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/detailGoodsPrice"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_alignLeft="@id/detailStatus1"
+                    android:layout_below="@id/detailStatus1"
+                    android:layout_marginTop="10dp"
                     android:background="#accb12"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/add_to_wishlist"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/detailSellerName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/detailAddWishlist"
-                    android:layout_toRightOf="@+id/detailGoodsPrice"
-                    android:text="@string/seller_name" />
-
                 <Button
                     android:id="@+id/detailPay"
                     android:layout_width="70dp"
                     android:layout_height="30dp"
-                    android:layout_alignBaseline="@+id/detailAddWishlist"
-                    android:layout_alignBottom="@+id/detailAddWishlist"
-                    android:layout_alignLeft="@+id/detailSellerName"
+                    android:layout_alignBottom="@id/detailAddWishlist"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/detailAddWishlist"
                     android:background="#accb12"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/buynow"
                     android:textSize="12sp" />
 
             </RelativeLayout>
+
         </LinearLayout>
 
         <LinearLayout

@@ -10,43 +10,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp" >
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
-
-        <SearchView
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" >
-
-        </SearchView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="0dp" >
-
-        <TextView
-            android:id="@+id/goodsDetail"
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="#4fc0b5" />
  
         <Button
             android:id="@+id/sellerAddGoods"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
             android:background="#accb12"
             android:text="@string/add_new_good" />
         

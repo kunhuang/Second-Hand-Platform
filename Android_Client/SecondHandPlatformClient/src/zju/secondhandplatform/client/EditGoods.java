@@ -20,8 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddGoods extends Activity {
-	private Button AddGoodsButton;
+public class EditGoods extends Activity {
+	private Button EditGoodsButton;
 	private EditText goodsNameText;
 	private EditText goodsPriceText;
 	private EditText goodsContentText;
@@ -33,12 +33,12 @@ public class AddGoods extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_seller_add_goods);
 
-		AddGoodsButton = (Button) findViewById(R.id.button1);
+		EditGoodsButton = (Button) findViewById(R.id.button1);
 		goodsNameText = (EditText) findViewById(R.id.editText1);
 		goodsPriceText = (EditText) findViewById(R.id.editText2);
 		goodsContentText = (EditText) findViewById(R.id.editText4);
 
-		AddGoodsButton.setOnClickListener(new OnClickListener() {
+		EditGoodsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				goodsName = goodsNameText.getText().toString();
@@ -51,18 +51,19 @@ public class AddGoods extends Activity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("seller_id", ""+id));
 				params.add(new BasicNameValuePair("password", passwd));
+	//			params.add(new BasicNameValuePair("goods_id", goods_id));
 				params.add(new BasicNameValuePair("name", goodsName));
 				params.add(new BasicNameValuePair("description", goodsContent));
 				params.add(new BasicNameValuePair("pure_price", goodsPrice));
 
-				Json json = new Json("/json_api/add_goods/", params);
+				Json json = new Json("/json_api/edit_goods_info/", params);
 				try {
 					while (json.getJsonObj() == null) {
 					}
 					int success = json.getJsonObj().getInt("success");
 
 					if (success == 1) {
-						Toast.makeText(getApplicationContext(), "添加成功",
+						Toast.makeText(getApplicationContext(), "修改成功",
 								Toast.LENGTH_SHORT).show();
 					} else {
 						int error_type = json.getJsonObj().getInt("error_type");
@@ -93,7 +94,7 @@ public class AddGoods extends Activity {
 				|| keyCode == KeyEvent.KEYCODE_HOME) {
 			Intent intent = new Intent();
 			try {
-				intent.setClass(AddGoods.this, Login.class);
+				intent.setClass(EditGoods.this, Login.class);
 				startActivity(intent);
 			} catch (Exception e) {
 				e.printStackTrace();

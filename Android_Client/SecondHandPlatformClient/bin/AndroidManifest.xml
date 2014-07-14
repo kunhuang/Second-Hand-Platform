@@ -39,6 +39,26 @@
             android:label="@string/app_name" >
         </activity>
         
+         <activity
+            android:name="zju.secondhandplatform.client.AddGoods"
+            android:label="@string/app_name" >
+        </activity>
+        
+         <activity
+            android:name="zju.secondhandplatform.client.SellerGoodsDetail"
+            android:label="@string/app_name" >
+        </activity>
+        
+         <activity
+            android:name="zju.secondhandplatform.client.BuyerGoodsDetail"
+            android:label="@string/app_name" >
+        </activity>
+        
+         <activity
+            android:name="zju.secondhandplatform.client.EditGoods"
+            android:label="@string/app_name" >
+        </activity>
+        
     </application>
     
     <uses-permission android:name="android.permission.INTERNET"/>

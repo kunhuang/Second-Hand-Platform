@@ -14,7 +14,7 @@
     <string name="action_example">主页</string>
     <string name="action_settings">设置</string>
     <string name="goods_name">商品名称</string>
-    <string name="goods_price">￥20.00</string>
+    <string name="goods_price">价格：￥</string>
     <string name="goods_detail">商品详情</string>
     <string name="add_to_wishlist">+心愿单</string>
     <string name="banner_text">Sell goods, help yourself</string>
@@ -29,7 +29,7 @@
     <string name="goods_img_dscrp">商品图片</string>
     <string name="banner_img_dscrp">二手跳蚤平台</string>
     <string name="regist_success_dscrp">注册成功</string>
-    <string name="seller_name">卖家：XX</string>
+    <string name="seller_name">卖家：</string>
     <string name="goods_detail_content">这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情这里是商品详情</string>
     <string name="goods_detail_comment">商品评论</string>
     <string name="goods_comment_content">这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论这里是商品评论</string>
@@ -49,5 +49,24 @@
     <string name="goods_img">商品图片</string>
     <string name="goods_description">商品描述</string>
     <string name="choose_img">选择...</string>
+    <string name="status1">状态：</string>
+    <string name="status2">在架上</string>
+    <string name="seller_name2">困困</string>
+    <string name="onshelf">上架</string>
+    <string name="offshelf">下架</string>
+    <string name="username_eg">困困</string>
+    <string name="email_eg">kun@gmail.com</string>
+    <string name="cellphone">手机</string>
+    <string name="cellphone_ex">13612312345</string>
+    <string name="zfb">支付宝账号</string>
+    <string name="zfb_ex">kun@gmail.com</string>
+    <string name="user_info">用户信息</string>
+    <string name="goods_price_ex">20.00</string>
+    <string name="comment_name">评论者：</string>
+    <string name="comment_name_eg">柔柔</string>
+    <string name="comment_time">评论时间：</string>
+    <string name="comment_time_eg">2014-7-14 15:17</string>
+    <string name="change">修改</string>
+    <string name="edit_user_info">修改用户信息</string>
 
 </resources>

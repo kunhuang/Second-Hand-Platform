@@ -10,104 +10,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp" >
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
-
-        <SearchView
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" >
-
-        </SearchView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:padding="0dp" >
 
-        <TextView
-            android:id="@+id/goodsDetail"
+        <!-- ListView控件 -->
+        <ListView
+            android:id="@+id/android:list"
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="#4fc0b5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:padding="0dp" >
-
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/goods_img_dscrp"
-                android:src="@drawable/goods_img" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:id="@+id/wishlistGoodsName"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/goods_name"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/wishlistGoodsPrice"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/wishlistGoodsName"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/goods_price" />
-
-                <Button
-                    android:id="@+id/wishlistEditUsername"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/wishlistGoodsPrice"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="left|center_vertical"
-                    android:text="@string/goods_detail"
-                    android:textSize="12sp"
-                    android:width="50dp" />
-
-                <RadioButton
-                    android:id="@+id/radioButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/wishlistGoodsPrice"
-                    android:layout_toRightOf="@id/wishlistGoodsName" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/sellerAddGoods"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:background="#accb12"
-            android:text="@string/buynow" />
-
+            android:layout_height="fill_parent" />
     </LinearLayout>
 
 </LinearLayout>
