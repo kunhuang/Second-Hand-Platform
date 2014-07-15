@@ -68,5 +68,16 @@
     <string name="comment_time_eg">2014-7-14 15:17</string>
     <string name="change">修改</string>
     <string name="edit_user_info">修改用户信息</string>
-
+    <string name="add_wishlist_time">收藏时间：</string>
+    <string name="add_wish_list_eg">2014-07-14 11:23</string>
+    <string name="trade_operate">操作：</string>
+    <string name="trade_time">时间：</string>
+    <string name="trade_time_eg">2014-07-15 14:21</string>
+    <string name="message_theme1">主题：</string>
+    <string name="message_theme2">买错了！</string>
+    <string name="message_sender1">发信人：</string>
+    <string name="message_sender2">彬彬</string>
+    <string name="message_content">买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了买错东西了</string>
+    <string name="message_time1">发信时间：</string>
+    <string name="message_time2">2014-7-15 15:15</string>
 </resources>

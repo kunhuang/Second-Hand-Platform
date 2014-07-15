@@ -4,61 +4,21 @@
     android:layout_height="fill_parent"
     android:layout_alignParentLeft="true"
     android:layout_alignParentTop="true"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="0dp"
     android:paddingLeft="0dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp" >
-
-        <EditText
-            android:id="@+id/searchText"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="text" />
-
-        <SearchView
-            android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent" >
-
-        </SearchView>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:padding="0dp" >
 
-        <TextView
-            android:id="@+id/goodsDetail"
+        <!-- ListView控件 -->
+        <ListView
+            android:id="@+id/android:list"
             android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:background="#4fc0b5" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:padding="0dp" >
-
-            <ExpandableListView
-                android:id="@+id/readMsgList"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="10dp" >
-
-            </ExpandableListView>
-
-        </LinearLayout>
-
+            android:layout_height="fill_parent" />
     </LinearLayout>
 
 </LinearLayout>

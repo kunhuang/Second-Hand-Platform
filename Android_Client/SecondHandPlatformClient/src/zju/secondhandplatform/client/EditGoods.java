@@ -28,11 +28,16 @@ public class EditGoods extends Activity {
 	private String goodsName;
 	private String goodsPrice;
 	private String goodsContent;
+	
+	private String goodsId;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_seller_add_goods);
 
+		Intent intent = getIntent();
+		goodsId = intent.getStringExtra("GoodsId");
+		
 		EditGoodsButton = (Button) findViewById(R.id.button1);
 		goodsNameText = (EditText) findViewById(R.id.editText1);
 		goodsPriceText = (EditText) findViewById(R.id.editText2);
@@ -51,7 +56,7 @@ public class EditGoods extends Activity {
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("seller_id", ""+id));
 				params.add(new BasicNameValuePair("password", passwd));
-	//			params.add(new BasicNameValuePair("goods_id", goods_id));
+				params.add(new BasicNameValuePair("goods_id", goodsId));
 				params.add(new BasicNameValuePair("name", goodsName));
 				params.add(new BasicNameValuePair("description", goodsContent));
 				params.add(new BasicNameValuePair("pure_price", goodsPrice));
@@ -67,9 +72,9 @@ public class EditGoods extends Activity {
 								Toast.LENGTH_SHORT).show();
 					} else {
 						int error_type = json.getJsonObj().getInt("error_type");
-						if (error_type == -2) {
+						if (error_type == -4) {
 							Toast.makeText(getApplicationContext(),
-									"账号已存在（邮箱重复）", Toast.LENGTH_SHORT).show();
+									"没有权限操作的goods（如别人的goods，只能在未上架的情况下修改价格）", Toast.LENGTH_SHORT).show();
 						} else {
 							Toast.makeText(getApplicationContext(), "未知错误",
 									Toast.LENGTH_SHORT).show();
@@ -87,20 +92,5 @@ public class EditGoods extends Activity {
 	}
 
 	protected void onCreateView(Bundle savedInstanceState) {
-	}
-
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK
-				|| keyCode == KeyEvent.KEYCODE_HOME) {
-			Intent intent = new Intent();
-			try {
-				intent.setClass(EditGoods.this, Login.class);
-				startActivity(intent);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return super.onKeyDown(keyCode, event);
 	}
 }

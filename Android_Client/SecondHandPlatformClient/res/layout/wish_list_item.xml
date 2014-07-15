@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:padding="0dp" >
+    android:layout_height="wrap_content"
+    android:padding="0dp" >
 
-            <ImageView
-                android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/goods_img_dscrp"
-                android:src="@drawable/goods_img" />
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/goods_img_dscrp"
+        android:src="@drawable/goods_img" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent" >
 
         <TextView
-            android:id="@+id/recordItemGoodsName"
+            android:id="@+id/wishlistItemGoodsName"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -43,42 +38,41 @@
             android:width="50dp" /-->
 
         <TextView
-            android:id="@+id/recordItemStatus"
+            android:id="@+id/wishlistItemStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/recordItemGoodsName"
-            android:layout_below="@id/recordItemGoodsName"
+            android:layout_alignLeft="@id/wishlistItemGoodsName"
+            android:layout_below="@id/wishlistItemGoodsName"
             android:layout_centerVertical="true"
             android:layout_marginTop="10dp"
-            android:text="@string/trade_operate" />
+            android:text="@string/status1" />
 
         <TextView
-            android:id="@+id/recordItemStatusContent"
+            android:id="@+id/wishlistItemStatusContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/recordItemStatus"
-            android:layout_below="@id/recordItemGoodsName"
-            android:layout_toRightOf="@id/recordItemStatus"
+            android:layout_alignBaseline="@id/wishlistItemStatus"
+            android:layout_below="@id/wishlistItemGoodsName"
+            android:layout_toRightOf="@id/wishlistItemStatus"
             android:text="@string/status2" />
 
         <TextView
-            android:id="@+id/recordItemTime"
+            android:id="@+id/wishlistItemTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/recordItemStatus"
-            android:layout_below="@id/recordItemStatus"
-            android:text="@string/trade_time" />
+            android:layout_alignLeft="@id/wishlistItemStatus"
+            android:layout_below="@id/wishlistItemStatus"
+            android:text="@string/add_wishlist_time" />
 
         <TextView
-            android:id="@+id/recordItemTimeContent"
+            android:id="@+id/wishlistItemTimeContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/recordItemTime"
+            android:layout_alignBaseline="@id/wishlistItemTime"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/recordItemTime"
-            android:text="@string/trade_time_eg" />
+            android:layout_toRightOf="@id/wishlistItemTime"
+            android:text="@string/add_wish_list_eg" />
 
     </RelativeLayout>
 
-        </LinearLayout>
 </LinearLayout>

@@ -20,49 +20,52 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AddGoods extends Activity {
-	private Button AddGoodsButton;
-	private EditText goodsNameText;
-	private EditText goodsPriceText;
-	private EditText goodsContentText;
-	private String goodsName;
-	private String goodsPrice;
-	private String goodsContent;
+public class EditUserInfo extends Activity {
+	private Button EditUserInfoButton;
+	private EditText userNameText;
+	private EditText emailText;
+	private EditText phoneText;
+	private EditText zfbText;
+	private String userName;
+	private String email;
+	private String phone;
+	private String zfb;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_seller_add_goods);
+		setContentView(R.layout.fragment_edit_user_info);
 
-		AddGoodsButton = (Button) findViewById(R.id.button1);
-		goodsNameText = (EditText) findViewById(R.id.editText1);
-		goodsPriceText = (EditText) findViewById(R.id.editText2);
-		goodsContentText = (EditText) findViewById(R.id.editText4);
+		EditUserInfoButton = (Button) findViewById(R.id.editUser);
+		userNameText = (EditText) findViewById(R.id.editUserUsernameInput);
+		emailText = (EditText) findViewById(R.id.editUserEmailInput);
+		phoneText = (EditText) findViewById(R.id.editUserPwInput);
+		zfbText = (EditText) findViewById(R.id.editUserRepwInput);
 
-		AddGoodsButton.setOnClickListener(new OnClickListener() {
+		EditUserInfoButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				goodsName = goodsNameText.getText().toString();
-				goodsPrice = goodsPriceText.getText().toString();
-				goodsContent = goodsContentText.getText().toString();
+				userName = userNameText.getText().toString();
+				email = emailText.getText().toString();
+				phone = phoneText.getText().toString();
+				zfb = zfbText.getText().toString();
 
-				ClientApp clientApp = (ClientApp) getApplication();
-				int id=clientApp.getId();
-				String passwd=clientApp.getPassword();
+				ClientApp clientApp = (ClientApp) getApplicationContext();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("seller_id", ""+id));
-				params.add(new BasicNameValuePair("password", passwd));
-				params.add(new BasicNameValuePair("name", goodsName));
-				params.add(new BasicNameValuePair("description", goodsContent));
-				params.add(new BasicNameValuePair("pure_price", goodsPrice));
+				params.add(new BasicNameValuePair("account_id", ""+clientApp.getId()));
+				params.add(new BasicNameValuePair("password", clientApp.getPassword()));
+				params.add(new BasicNameValuePair("name", userName));
+				params.add(new BasicNameValuePair("email", email));
+				params.add(new BasicNameValuePair("phone", phone));
+				params.add(new BasicNameValuePair("bank_card", zfb));
 
-				Json json = new Json("/json_api/add_goods/", params);
+				Json json = new Json("/json_api/edit_account_info/", params);
 				try {
 					while (json.getJsonObj() == null) {
 					}
 					int success = json.getJsonObj().getInt("success");
 
 					if (success == 1) {
-						Toast.makeText(getApplicationContext(), "添加成功",
+						Toast.makeText(getApplicationContext(), "编辑成功",
 								Toast.LENGTH_SHORT).show();
 					} else {
 						int error_type = json.getJsonObj().getInt("error_type");

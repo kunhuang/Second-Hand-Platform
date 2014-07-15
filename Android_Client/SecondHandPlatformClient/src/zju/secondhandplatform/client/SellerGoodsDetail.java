@@ -96,14 +96,14 @@ public class SellerGoodsDetail extends ListActivity {
 				state = row.getString("state");
 				goodsContent = row.getString("description");
 
-				if (state=="I"){
-					state="未上架";
-				}else if(state=="O"){
-					state="已上架";
-				}else if(state=="B"){
-					state="已交易";
-				}else if(state=="C"){
-					state="下架";
+				if (state.equals("I")) {
+					state = "未上架";
+				} else if (state.equals("O")) {
+					state = "已上架";
+				} else if (state.equals("B")) {
+					state = "已交易";
+				} else if (state.equals("C")) {
+					state = "下架";
 				}
 				goodsNameText.setText(goodsName);
 				goodsPriceText.setText(goodsPrice);
@@ -278,6 +278,7 @@ public class SellerGoodsDetail extends ListActivity {
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(SellerGoodsDetail.this, EditGoods.class);
+				intent.putExtra("GoodsId", goodsId);
 				startActivity(intent);	
 			}
 		});

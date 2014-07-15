@@ -79,7 +79,7 @@ public class WishList extends ListFragment {
 				}
 				int success = json.getJsonObj().getInt("success");
 
-				// {"id":3,"data":{"total":1,"rows":[{"id":28,"buyer_id":"0","pure_price":400,"state":"I","seller_id":"3","description":"2013年","name":"显示屏"}]},"success":1}
+				//{"data":{"total":2,"rows":[{"id":2,"time":1405319645,"account_id":8,"payed":false,"goods_id":1},{"id":4,"time":1405391283,"account_id":8,"payed":false,"goods_id":32}]},"success":1}
 				if (success == 1) {
 					JSONObject jsonData = json.getJsonObj().getJSONObject(
 							"data");
@@ -87,21 +87,38 @@ public class WishList extends ListFragment {
 					JSONArray rows = jsonData.getJSONArray("rows");
 					for (int i = 0; i < total; i++) {
 						JSONObject row = rows.getJSONObject(i);
-						int goodsId = row.getInt("id");
-						String goodsName = row.getString("name");
-						String price = row.getString("pure_price");
+						String goodsId = row.getString("goods_id");
+						Boolean payed=row.getBoolean("payed");
+						String time=row.getString("time");
+//						String goodsName = row.getString("name");
+//						String price = row.getString("pure_price");
+						
+						String state;
+						if(payed==false){
+							state="未支付";
+						}
+						else{
+							state="已支付";
+						}
 
 						HashMap<String, Object> map = new HashMap<String, Object>();
 						map.put("goodsId", goodsId);
-						map.put("goodsName", goodsName);
-						map.put("price", price);
+						map.put("state", state);
+						map.put("time", time);
+//						map.put("goodsName", goodsName);
+//						map.put("price", price);
 						data.add(map);
 					}
 					adapter = new SimpleAdapter(this.getActivity(), data,
-							R.layout.goods_item, new String[] { "goodsName",
-									"price" },
-							new int[] { R.id.sellerGoodsName,
-									R.id.sellerGoodsPrice });
+							R.layout.wish_list_item, new String[] { "goodsId",
+									"state","time"},
+							new int[] { R.id.wishlistItemGoodsName,
+									R.id.wishlistItemStatusContent,R.id.wishlistItemTimeContent });
+//					adapter = new SimpleAdapter(this.getActivity(), data,
+//							R.layout.goods_item, new String[] { "goodsName",
+//									"price" },
+//							new int[] { R.id.sellerGoodsName,
+//									R.id.sellerGoodsPrice });
 					try {
 						setListAdapter(adapter);
 					} catch (Exception e) {
@@ -113,7 +130,7 @@ public class WishList extends ListFragment {
 					if (error_type == -5) {
 						Toast.makeText(
 								this.getActivity().getApplicationContext(),
-								"已经加入心愿单）", Toast.LENGTH_SHORT).show();
+								"已经加入心愿单", Toast.LENGTH_SHORT).show();
 					} else {
 						Toast.makeText(
 								this.getActivity().getApplicationContext(),
