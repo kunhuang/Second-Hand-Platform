@@ -113,9 +113,7 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/offshelf"
                     android:textSize="12sp" />
-
             </RelativeLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -161,8 +159,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/goods_detail_comment" />
-            
-                        <LinearLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
@@ -181,15 +179,14 @@
                     android:layout_weight="1"
                     android:text="@string/submit"
                     android:textSize="15sp" />
-
             </LinearLayout>
 
             <!-- ListView控件 -->
+
             <ListView
                 android:id="@+id/android:list"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" />
-
         </LinearLayout>
     </LinearLayout>
 

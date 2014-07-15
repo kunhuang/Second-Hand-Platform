@@ -136,6 +136,7 @@ public class MyGoods extends ListFragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_seller_page,
 				container, false);
+		
 		addGoodsButton = (Button) rootView.findViewById(R.id.sellerAddGoods);
 //		listView = (ListView) rootView.findViewById(android.R.id.list);
 

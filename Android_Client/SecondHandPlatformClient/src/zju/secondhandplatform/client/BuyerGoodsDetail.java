@@ -32,12 +32,12 @@ public class BuyerGoodsDetail extends ListActivity {
 	private Button submitCommentButton;
 	private TextView goodsNameText;
 	private TextView goodsPriceText;
-	private TextView sellerNameText;
+	private TextView stateText;
 	private TextView goodsContentText;
 	private EditText editCommentText;
 	private String goodsName;
 	private String goodsPrice;
-	private String sellerName;
+	private String state;
 	private String goodsContent;
 	private String editComment;
 
@@ -45,7 +45,6 @@ public class BuyerGoodsDetail extends ListActivity {
 	private String passwd;
 	private String goodsId;
 
-	private ListView listView;
 	private SimpleAdapter adapter;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +53,10 @@ public class BuyerGoodsDetail extends ListActivity {
 
 		addWishlistButton = (Button) findViewById(R.id.detailAddWishlist);
 		payButton = (Button) findViewById(R.id.detailPay);
+		submitCommentButton = (Button) findViewById(R.id.submitComment);
 		goodsNameText = (TextView) findViewById(R.id.detailGoodsName);
 		goodsPriceText = (TextView) findViewById(R.id.detailGoodsPrice2);
-	//	sellerNameText = (TextView) findViewById(R.id.detailSellerName);
+		stateText = (TextView) findViewById(R.id.detailStatus2);
 		goodsContentText = (TextView) findViewById(R.id.detailGoodsContent);
 		editCommentText = (EditText) findViewById(R.id.editComment);
 
@@ -67,21 +67,23 @@ public class BuyerGoodsDetail extends ListActivity {
 		seller_id = clientApp.getId();
 		passwd = clientApp.getPassword();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-//		params.add(new BasicNameValuePair("seller_id", "" + seller_id));
-//		params.add(new BasicNameValuePair("password", passwd));
+		// params.add(new BasicNameValuePair("seller_id", "" + seller_id));
+		// params.add(new BasicNameValuePair("password", passwd));
 		params.add(new BasicNameValuePair("goods_id", goodsId));
 		Json json = new Json("/json_api/get_goods_info/", params);
+		// "data":{"total":1,"rows":[{"id":1,"buyer_id":"","pure_price":10000,"state":"I","seller_id":"1","description":"全新品","name":"苹果电脑"}]}
 
 		List<NameValuePair> params2 = new ArrayList<NameValuePair>();
-//		params2.add(new BasicNameValuePair("account_id", "" + seller_id));
-//		params2.add(new BasicNameValuePair("password", passwd));
+		// params2.add(new BasicNameValuePair("account_id", "" + seller_id));
+		// params2.add(new BasicNameValuePair("password", passwd));
 		params2.add(new BasicNameValuePair("goods_id", goodsId));
-		Json json2 = new Json("/json_api/get_comment_array/", params2);
+		Json commentJson = new Json("/json_api/get_comment_array/", params2);
+		//{"data":{"total":1,"rows":[{"id":3,"content":"editComment","time":1405388190,"account_id":8,"goods_id":32}]},"success":1}
 		try {
 			while (json.getJsonObj() == null) {
 			}
 			int success = json.getJsonObj().getInt("success");
-			// "data":{"total":1,"rows":[{"id":1,"buyer_id":"","pure_price":10000,"state":"I","seller_id":"1","description":"全新品","name":"苹果电脑"}]}
+			
 			if (success == 1) {
 				JSONObject data = json.getJsonObj().getJSONObject("data");
 				// int total=data.getInt("total");
@@ -89,27 +91,44 @@ public class BuyerGoodsDetail extends ListActivity {
 				JSONObject row = rows.getJSONObject(0);
 				goodsName = row.getString("name");
 				goodsPrice = row.getString("pure_price");
-				sellerName = row.getString("seller_id");
+				state = row.getString("state");
 				goodsContent = row.getString("description");
 
+				if (state.equals("I")) {
+					state = "未上架";
+				} else if (state.equals("O")) {
+					state = "已上架";
+				} else if (state.equals("B")) {
+					state = "已交易";
+				} else if (state.equals("C")) {
+					state = "下架";
+				}
 				goodsNameText.setText(goodsName);
 				goodsPriceText.setText(goodsPrice);
-				sellerNameText.setText(sellerName);
+				stateText.setText(state);
 				goodsContentText.setText(goodsContent);
 
 				List<HashMap<String, Object>> comments = new ArrayList<HashMap<String, Object>>();
-				for (int i = 0; i < 10; i++) {
-					String content = "性价比超高！";
+				while(commentJson.getJsonObj()==null){}
+				JSONObject commentData = commentJson.getJsonObj().getJSONObject("data");
+				int commentTotal=commentData.getInt("total");
+				JSONArray commentRows = commentData.getJSONArray("rows");
+				for (int i = 0; i < commentTotal; i++) {
+					JSONObject commentRow = commentRows.getJSONObject(i);
+					String content = commentRow.getString("content");
+					String time = commentRow.getString("time");
+					String accountName = commentRow.getString("account_id");
 
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("content", content);
+					map.put("time", time);
+					map.put("accountName", accountName);
 					comments.add(map);
 				}
 				adapter = new SimpleAdapter(this, comments,
-						R.layout.comment_item, new String[] { "content" },
-						new int[] { R.id.detailCommentContent });
+						R.layout.comment_item, new String[] { "content","time","accountName" },
+						new int[] { R.id.detailCommentContent,R.id.commentTime2,R.id.commentName2 });
 				try {
-					// listView.setAdapter(adapter);
 					setListAdapter(adapter);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -135,7 +154,7 @@ public class BuyerGoodsDetail extends ListActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				ClientApp clientApp = (ClientApp)getApplicationContext();
+				ClientApp clientApp = (ClientApp) getApplicationContext();
 				if (clientApp.getId() == -1) {
 					try {
 						Intent intent = new Intent();
@@ -165,9 +184,10 @@ public class BuyerGoodsDetail extends ListActivity {
 									"error_type");
 							if (error_type == -5) {
 								Toast.makeText(getApplicationContext(),
-										"已经加入心愿单）", Toast.LENGTH_SHORT).show();
+										"已经加入心愿单", Toast.LENGTH_SHORT).show();
 							} else {
-								Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
+								Toast.makeText(getApplicationContext(),
+										"未知错误:错误代码" + error_type,
 										Toast.LENGTH_SHORT).show();
 							}
 						}
@@ -180,12 +200,12 @@ public class BuyerGoodsDetail extends ListActivity {
 				}
 			}
 		});
-		
+
 		payButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 
-				ClientApp clientApp = (ClientApp)getApplicationContext();
+				ClientApp clientApp = (ClientApp) getApplicationContext();
 				if (clientApp.getId() == -1) {
 					try {
 						Intent intent = new Intent();
@@ -195,61 +215,62 @@ public class BuyerGoodsDetail extends ListActivity {
 						e.printStackTrace();
 					}
 				} else {
-					Toast.makeText(getApplicationContext(), "使用空付支付！bibibibi~~",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(),
+							"使用空付支付！bibibibi~~", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-		
+
 		submitCommentButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
-				ClientApp clientApp=(ClientApp)getApplicationContext();
-	        	if(clientApp.getId()==-1){       		
-	        		try{
-	        			Intent intent = new Intent();
-	        			intent.setClass(BuyerGoodsDetail.this, Login.class);
-	        			startActivity(intent);
-	        		}catch(Exception e){
-	        			e.printStackTrace();
-	        		}        	
-	        	}
-	        	else{
-	        		editComment=editCommentText.getText().toString();
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("account_id", "" + clientApp.getId()));
-				params.add(new BasicNameValuePair("password", passwd));
-				params.add(new BasicNameValuePair("goods_id", goodsId));
-				params.add(new BasicNameValuePair("content", "editComment"));
-				Json json = new Json("/json_api/add_comment/", params);
-				
-				try {
-					while (json.getJsonObj() == null) {
-					}
-					int success = json.getJsonObj().getInt("success");
 
-					if (success == 1) {
-						Toast.makeText(getApplicationContext(), "评论成功",
-								Toast.LENGTH_SHORT).show();
-					} else {
-						int error_type = json.getJsonObj().getInt("error_type");
-						if (error_type == -5) {
-							Toast.makeText(getApplicationContext(),
-									"已经加入心愿单）", Toast.LENGTH_SHORT)
-									.show();
-						} else {
-							Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
-									Toast.LENGTH_SHORT).show();
-						}
+				ClientApp clientApp = (ClientApp) getApplicationContext();
+				if (clientApp.getId() == -1) {
+					try {
+						Intent intent = new Intent();
+						intent.setClass(BuyerGoodsDetail.this, Login.class);
+						startActivity(intent);
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
+				} else {
+					editComment = editCommentText.getText().toString();
+					List<NameValuePair> params = new ArrayList<NameValuePair>();
+					params.add(new BasicNameValuePair("account_id", ""
+							+ clientApp.getId()));
+					params.add(new BasicNameValuePair("password", passwd));
+					params.add(new BasicNameValuePair("goods_id", goodsId));
+					params.add(new BasicNameValuePair("content", editComment));
+					Json json = new Json("/json_api/add_comment/", params);
+
+					try {
+						while (json.getJsonObj() == null) {
+						}
+						int success = json.getJsonObj().getInt("success");
+
+						if (success == 1) {
+							Toast.makeText(getApplicationContext(), "评论成功",
+									Toast.LENGTH_SHORT).show();
+						} else {
+							int error_type = json.getJsonObj().getInt(
+									"error_type");
+							if (error_type == -5) {
+								Toast.makeText(getApplicationContext(),
+										"已经加入心愿单）", Toast.LENGTH_SHORT).show();
+							} else {
+								Toast.makeText(getApplicationContext(),
+										"未知错误:错误代码" + error_type,
+										Toast.LENGTH_SHORT).show();
+							}
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-			}
 			}
 		});
 	}

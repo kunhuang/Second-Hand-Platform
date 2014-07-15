@@ -24,7 +24,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class Json {
-	private String httpurl = "http://10.180.41.58:8000";
+	private String httpurl = "http://10.180.39.201:8000";
 	private List<NameValuePair> postParams;
 	private String data = "";
 	private JSONObject jsonObj = null;

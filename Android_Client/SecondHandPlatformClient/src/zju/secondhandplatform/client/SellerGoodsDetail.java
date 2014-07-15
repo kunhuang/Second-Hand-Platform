@@ -80,7 +80,7 @@ public class SellerGoodsDetail extends ListActivity {
 		params2.add(new BasicNameValuePair("account_id", "" + id));
 		params2.add(new BasicNameValuePair("password", passwd));
 		params2.add(new BasicNameValuePair("goods_id", goodsId));
-		Json json2 = new Json("/json_api/get_comment_array/", params2);
+		Json commentJson = new Json("/json_api/get_comment_array/", params2);
 		try {
 			while (json.getJsonObj() == null) {
 			}
@@ -111,16 +111,25 @@ public class SellerGoodsDetail extends ListActivity {
 				goodsContentText.setText(goodsContent);
 
 				List<HashMap<String, Object>> comments = new ArrayList<HashMap<String, Object>>();
-				for (int i = 0; i < 10; i++) {
-					String content = "性价比超高！";
+				while(commentJson.getJsonObj()==null){}
+				JSONObject commentData = commentJson.getJsonObj().getJSONObject("data");
+				int commentTotal=commentData.getInt("total");
+				JSONArray commentRows = commentData.getJSONArray("rows");
+				for (int i = 0; i < commentTotal; i++) {
+					JSONObject commentRow = commentRows.getJSONObject(i);
+					String content = commentRow.getString("content");
+					String time = commentRow.getString("time");
+					String accountName = commentRow.getString("account_id");
 
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("content", content);
+					map.put("time", time);
+					map.put("accountName", accountName);
 					comments.add(map);
 				}
 				adapter = new SimpleAdapter(this, comments,
-						R.layout.comment_item, new String[] { "content" },
-						new int[] { R.id.detailCommentContent });
+						R.layout.comment_item, new String[] { "content","time","accountName" },
+						new int[] { R.id.detailCommentContent,R.id.commentTime2,R.id.commentName2 });
 				try {
 					// listView.setAdapter(adapter);
 					setListAdapter(adapter);
@@ -232,7 +241,7 @@ public class SellerGoodsDetail extends ListActivity {
 				params.add(new BasicNameValuePair("account_id", "" + id));
 				params.add(new BasicNameValuePair("password", passwd));
 				params.add(new BasicNameValuePair("goods_id", goodsId));
-				params.add(new BasicNameValuePair("content", "editComment"));
+				params.add(new BasicNameValuePair("content", editComment));
 				Json json = new Json("/json_api/add_comment/", params);
 				
 				try {
