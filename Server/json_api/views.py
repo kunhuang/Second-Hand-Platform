@@ -41,8 +41,12 @@ def add_account(request):
         email = request.POST['email']
         password = request.POST['password']
         phone = request.POST.get('phone')
+        bank_card = request.POST.get('bank_card')
+
         if phone == None:
             phone = ''
+        if bank_card == None:
+            bank_card = ''
 
         if Account_Info.objects.filter(email = email).exists():
             error['error_type'] = -2
@@ -105,6 +109,7 @@ def edit_account_info(request):
         phone = request.POST.get('phone')
         new_password = request.POST.get('new_password')
         name = request.POST.get('name')
+        bank_card = request.POST.get('bank_card')
 
         if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
@@ -118,6 +123,9 @@ def edit_account_info(request):
                 account_info.password = new_password
             if name != None:
                 account_info.name = name
+            if bank_card != None:
+                account_info.bank_card = bank_card
+
             account_info.save()
             return HttpResponse(json.dumps(success))
     except Exception, e:
@@ -247,6 +255,7 @@ def edit_goods_info(request):
         password = request.POST['password']
         goods_id = request.POST['goods_id']
 
+        name = request.POST.get('name')
         description = request.POST.get('description')
         pure_price = request.POST.get('pure_price')
         #photo
@@ -269,6 +278,8 @@ def edit_goods_info(request):
             goods.pure_price = pure_price
         if description != None:
             goods.description = description
+        if name != None:
+            goods.name = name
         goods.save()
 
         log = Log_Info.objects.create(
@@ -597,13 +608,13 @@ def send_message(request):
         password = request.POST['password']
         recv_account_id = request.POST['recv_account_id']
         subject = request.POST['subject']
-        content = request.POST['contet']
+        content = request.POST['content']
 
         if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
             return HttpResponse(json.dumps(error))
 
-        if Account_Info.objects.filter(id == recv_account_id).exists() == False:
+        if Account_Info.objects.filter(id = recv_account_id).exists() == False:
             error['error_type'] = -7
             return HttpResponse(json.dumps(error))
 

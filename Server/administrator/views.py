@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from administrator.models import *
@@ -13,6 +13,7 @@ from json_api.models import Account_Info, Goods_Info, Log_Info, Message_Info, Co
 
 # Create your views here.
 def index(request):
+    return redirect('login')
     return HttpResponse(request.session['login'])
 
 def login(request):
@@ -33,3 +34,48 @@ def statistic(request):
     })
     return HttpResponse(template.render(context))
 
+def manage_account(request):
+    if 'login' not in request.session or request.session['login'] == False:
+        return HttpResponse('401 Error')
+
+    account_array = Account_Info.objects.all()
+    template = loader.get_template('manage_account.html')
+    context = RequestContext(request, {
+        'account_array': account_array,
+    })
+    return HttpResponse(template.render(context))
+def edit_account(request):
+    try:
+        if 'login' not in request.session or request.session['login'] == False:
+            return HttpResponse('401 Error')
+
+        account = Account_Info.objects.get(id = request.GET['account_id'])
+
+        print request.POST
+        if 'name' in request.POST:
+            account.name = request.POST['name']
+            account.email = request.POST['email']
+            account.password = request.POST['password']
+            account.sell_exp = request.POST['sell_exp']
+            account.buy_exp = request.POST['buy_exp']
+            account.phone = request.POST['phone']
+            account.bank_card = request.POST['bank_card']
+            account.save()
+
+            return redirect('edit_account?account_id=%s' % request.GET['account_id'])
+        else:
+            template = loader.get_template('account_detail.html')
+            context = RequestContext(request, {
+                'account': account,
+                'account_dict': model_to_dict(account),
+                'account_dict_key': model_to_dict(account).keys()
+            })
+            return HttpResponse(template.render(context))
+
+    except Exception, e:
+        print e
+        return HttpResponse('')
+    else:
+        pass
+    finally:
+        pass

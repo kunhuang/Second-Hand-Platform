@@ -21,6 +21,7 @@ DATA:
     name,
     email, 
     password, 
+    (bank_card),
     (phone), 
 RESPONSE:
     成功:{"success": 1, }
@@ -49,6 +50,7 @@ URL: POST /json_api/edit_account_info
 DATA:
     account_id = 
     password = 
+    (bank_card)
     (name) = 
     (new_password) = 
     (phone) = 
@@ -95,6 +97,7 @@ DATA:
     seller_id,
     password,
     goods_id,
+    (name),
     (description),
     (pure_price),
     (photo),
