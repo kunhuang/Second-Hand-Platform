@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^edit_goods_info?/$', views.edit_goods_info, name='edit_goods_info'),
     
     
-    url(r'^transact_goods_info?/$', views.transact_goods, name='transact_goods'),
+    url(r'^transact_goods?/$', views.transact_goods, name='transact_goods'),
     url(r'^get_transaction_array?/$', views.get_transaction_array, name='get_transaction_array'),
     
     

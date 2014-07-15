@@ -6,6 +6,7 @@ from administrator.models import *
 import json
 import time
 from django.forms.models import model_to_dict
+from django.template import RequestContext, loader
 from django.db.models import Q
 
 from json_api.models import Account_Info, Goods_Info, Log_Info, Message_Info, Comment_Info, Wish_List
@@ -26,9 +27,9 @@ def logout(request):
     return HttpResponse("login")
 
 def statistic(request):
-    template = loader.get_template('administrator/statistic.html')
+    template = loader.get_template('statistic.html')
     context = RequestContext(request, {
-        'latest_poll_list': latest_poll_list,
+        'test': 1,
     })
     return HttpResponse(template.render(context))
 

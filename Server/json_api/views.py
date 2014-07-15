@@ -300,14 +300,16 @@ def transact_goods(request):
             return HttpResponse(json.dumps(error))
 
         if account_type == '0':#seller
-            goods = Goods_Info.objects.filter(id = goods_id, seller_id = seller_id)
+            goods = Goods_Info.objects.filter(id = goods_id, seller_id = account_id)
         
             if goods.exists() == False:
                 error['error_type'] = -4
                 return HttpResponse(json.dumps(error))
 
-            if (type == 'O' or type == 'C') and goods.type == 'I':
-                goods.type = type
+            goods = goods[0]
+            if (type == 'O' or type == 'C') and goods.state == 'I':
+                goods.state = type
+                goods.save()
                 log = Log_Info.objects.create(
                     goods_id = goods,
                     time = int(time.time()),
@@ -317,21 +319,22 @@ def transact_goods(request):
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
         elif account_type == '1':#buyer
-            goods = Goods_Info.objects.filter(seller_id = seller_id)
+            goods = Goods_Info.objects.filter(id = goods_id)
         
             if goods.exists() == False:
                 error['error_type'] = -3
                 return HttpResponse(json.dumps(error))
 
-            if (type == 'B') and goods.type == 'O':
-                goods.type = type
+            goods = goods[0]
+            if (type == 'B') and goods.state == 'O':
+                goods.state = type
+                goods.buyer_id = account_id
+                goods.save()
                 log = Log_Info.objects.create(
                     goods_id = goods,
                     time = int(time.time()),
                     type = type,
                     )
-                goods.buyer_id = account_id
-                goods.save()
                 return HttpResponse(json.dumps(success))
             error['error_type'] = -4
             return HttpResponse(json.dumps(error))
@@ -351,7 +354,10 @@ def get_transaction_array(request):
     try:
         account_id =  request.POST['account_id']
         password = request.POST['password']
-        account_type = request.POST['account_type']
+        account_type = request.POST.get('account_type')
+
+        if account_type == None:
+            account_type = '2'
 
         if Account_Info.validate_id(id = account_id, password = password) == False:
             error['error_type'] = -1
@@ -360,8 +366,8 @@ def get_transaction_array(request):
         
         if account_type == '0':#seller
             
-            raw_sql = 'select * from json_api_log_info where goods_id in'
-            raw_sql = raw_sql+'(select id from json_api_goods_info where seller_id=%s)'%account_id
+            raw_sql = 'select * from json_api_log_info where goods_id_id in'
+            raw_sql = raw_sql+'(select id from json_api_goods_info where seller_id_id=%s)'%account_id
             
             print raw_sql
             log_array = Log_Info.objects.raw(raw_sql)
@@ -381,12 +387,46 @@ def get_transaction_array(request):
             #print type(log_array)
             return HttpResponse(json_data)
         elif account_type == '1':#buyer
-            raw_sql = 'select * from json_api_log_info where goods_id in'
-            raw_sql = raw_sql+'(select id from json_api_goods_info where buyer_id = %s)'%account_id
+            raw_sql = 'select * from json_api_log_info where goods_id_id in'
+            raw_sql = raw_sql+'(select id from json_api_goods_info where buyer_id_id = %s)'%account_id
             
             log_array = Log_Info.objects.raw(raw_sql)
             
-            return HttpResponse(getSuccessJson(log_array))
+            #无法直接使用getSuccessJson()
+            total = 0
+            for log in log_array:
+                total = total + 1
+            
+            data = {
+              'total':total,
+              'rows': [model_to_dict(item) for item in log_array]
+            }
+            success['data'] = data
+            json_data = json.dumps(success)
+
+            #print type(log_array)
+            return HttpResponse(json_data)
+        elif account_type == '2':#同时返回
+            raw_sql = 'select * from json_api_log_info where goods_id_id in'
+            raw_sql = raw_sql+'(select id from json_api_goods_info where buyer_id_id = %s or seller_id_id = %s)' % (account_id,account_id)
+            
+            log_array = Log_Info.objects.raw(raw_sql)
+            
+            #无法直接使用getSuccessJson()
+            total = 0
+            for log in log_array:
+                total = total + 1
+            
+            data = {
+              'total':total,
+              'rows': [model_to_dict(item) for item in log_array]
+            }
+            success['data'] = data
+            json_data = json.dumps(success)
+
+            #print type(log_array)
+            return HttpResponse(json_data)
+            
         else:
             error['error_type'] = -4
             return HttpResponse(error)
@@ -480,7 +520,7 @@ def add_wishlist(request):
 
         Wish_List.objects.create(
             account_id = Account_Info.objects.get(id = buyer_id),
-            goods_id = goods_id,
+            goods_id = Goods_Info.objects.get(id = goods_id)    ,
             time = int(time.time()),
             payed = 0,
             )
@@ -640,15 +680,35 @@ def test(request):
         pure_price = 8000,
         )
     '''
+    option = request.GET['option']
+    if request.GET['option'] == '1':
+        return HttpResponse("hello")
+    elif request.GET['option'] == '2':
+        tmp = Wish_List.objects.select_related().filter(id = 1)
+        
+        total = 0
+        for log in tmp:
+            total = total + 1
+            
+        data = {
+          'total': total,
+          'rows': [model_to_dict(item) for item in tmp]
+        }
 
-    tmp = Wish_List.objects.select_related(depth = 3)
-    return HttpResponse(getSuccessJson(tmp))
-    return HttpResponse(getJson(goods_info))
+        for d in data['rows']:
+            account_dict = model_to_dict(Account_Info.objects.get(id = d['account_id']))
+            del account_dict['id']
+            d.update(account_dict)
+            #d.insert()
+        
+        success['data'] = data
+        json_data = json.dumps(success)
 
+        #print type(log_array)
+        return HttpResponse(json_data)
+        return HttpResponse(json.dumps(getSuccessJson(tmp)))
+    
+    return HttpResponse("None")
 def test2(request):
-    try:
-        email = request.POST['email']
-        password = request.POST['password']
-        return HttpResponse(Account_Info.validate_email(email = email, password = password))
-    except:
-        return HttpResponse(False)
+    tmp = Wish_List.objects.select_related('Account_Info')
+    return HttpResponse(json.dumps(getSuccessJson(tmp)))

@@ -2,7 +2,7 @@
 import json
 import requests
 
-url_prefix = "http://10.180.41.58:8000/"
+url_prefix = "http://10.180.39.201:8000/"
 
 add_account_url = "json_api/add_account/"
 add_account_data = {
@@ -44,9 +44,9 @@ add_goods_data = {
 
 get_transaction_array_url = "json_api/get_transaction_array/"
 get_transaction_array_data = {
-    "account_id": 1,
-    "password": "123",
-    "account_type": 0,
+    "account_id": 8,
+    "password": "t",
+    #"account_type": 0,
     #"photo"
 }
 
@@ -58,10 +58,13 @@ get_goods_array_data = {
     "goods_num": 5,
 }
 
-u = "json_api/get_wishlist/"
+u = "json_api/get_transaction_array/"
 d = {
-        "buyer_id": 8,
-        "password": "t",
+        "account_id": 1,
+        "password": "123",
+        "account_type": 0,
+        "goods_id": 1,
+        "type": 'O',
     }
 
 #8修改商品信息
@@ -74,5 +77,6 @@ u82=edit_goods_info_data = {
     "pure_price":135000000,
     #"photo"  
 }
-r = requests.post(url_prefix + u8, u82)
+
+r = requests.post(url_prefix + get_transaction_array_url, get_transaction_array_data)
 print(r.content)
