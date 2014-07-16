@@ -1,6 +1,8 @@
 package zju.secondhandplatform.client;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,9 +92,11 @@ public class MessageCenter extends ListFragment {
 						String subject = row.getString("subject");
 //						String state = row.getString("type");
 						String content=row.getString("content");
-						String time = row.getString("time");
+						Long timeLong = row.getLong("time");
 						String send_account_id = row.getString("send_account_id");
 						
+						SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+						String time=sdf.format(new Date(timeLong*1000L));
 
 						HashMap<String, Object> map = new HashMap<String, Object>();
 						map.put("subject", subject);

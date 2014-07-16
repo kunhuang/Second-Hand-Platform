@@ -1,6 +1,8 @@
 package zju.secondhandplatform.client;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -129,9 +131,13 @@ public class BuyerGoodsDetail extends ListActivity {
 				for (int i = 0; i < commentTotal; i++) {
 					JSONObject commentRow = commentRows.getJSONObject(i);
 					String content = commentRow.getString("content");
-					String time = commentRow.getString("time");
-					String accountName = commentRow.getString("account_id");
+					Long timeLong = commentRow.getLong("time");
+					String accountName = "ÄäÃûÓÃ»§              ";
+			//		String accountName = commentRow.getString("account_id");
 
+					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+					String time=sdf.format(new Date(timeLong*1000L));
+					
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("content", content);
 					map.put("time", time);

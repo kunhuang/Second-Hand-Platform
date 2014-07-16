@@ -1,6 +1,8 @@
 package zju.secondhandplatform.client;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,9 +91,9 @@ public class Record extends ListFragment {
 					JSONArray rows = jsonData.getJSONArray("rows");
 					for (int i = 0; i < total; i++) {
 						JSONObject row = rows.getJSONObject(i);
-						int goodsId = row.getInt("goods_id");
+						String goodsId = row.getString("goods_id");
 						String state = row.getString("type");
-						String time = row.getString("time");
+						Long timeLong = row.getLong("time");
 						// String goodsName = row.getString("name");
 						// String price = row.getString("pure_price");
 
@@ -107,6 +109,9 @@ public class Record extends ListFragment {
 							state = "¸üÐÂ";
 						}
 
+						SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+						String time=sdf.format(new Date(timeLong*1000L));
+						
 						int id = clientApp.getId();
 						String passwd = clientApp.getPassword();
 						List<NameValuePair> params2 = new ArrayList<NameValuePair>();
@@ -126,7 +131,8 @@ public class Record extends ListFragment {
 						String goodsName = jsonRow.getString("name");
 
 						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put("goodsId", goodsName);
+						map.put("goodsId", goodsId);
+						map.put("goodsName", goodsName);
 						map.put("state", state);
 						map.put("time", time);
 						// map.put("goodsName", goodsName);
@@ -134,7 +140,7 @@ public class Record extends ListFragment {
 						data.add(map);
 					}
 					adapter = new SimpleAdapter(this.getActivity(), data,
-							R.layout.record_item, new String[] { "goodsId",
+							R.layout.record_item, new String[] { "goodsName",
 									"state", "time" }, new int[] {
 									R.id.recordItemGoodsName,
 									R.id.recordItemStatusContent,
@@ -193,7 +199,7 @@ public class Record extends ListFragment {
 		HashMap<String, Object> view = (HashMap<String, Object>) l
 				.getItemAtPosition(position);
 		String goodsId = view.get("goodsId").toString();
-
+		
 		Intent intent = new Intent();
 		intent.setClass(this.getActivity(), BuyerGoodsDetail.class);
 		intent.putExtra("GoodsId", goodsId);

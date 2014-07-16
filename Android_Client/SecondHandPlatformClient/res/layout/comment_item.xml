@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <TextView
+        <!--  TextView
             android:id="@+id/commentName1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/comment_name" />
+            android:text="@string/comment_name" /-->
 
         <TextView
             android:id="@+id/commentName2"
@@ -21,12 +21,12 @@
             android:layout_height="wrap_content"
             android:text="@string/comment_name_eg" />
 
-        <TextView
+        <!--TextView
             android:id="@+id/commentTime1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="@string/comment_time" />
+            android:text="@string/comment_time" /-->
 
         <TextView
             android:id="@+id/commentTime2"
