@@ -1,6 +1,6 @@
 from django.db import models
 import time
-
+import PIL
 # Create your models here.
 class Account_Info(models.Model):
 	name = models.CharField(max_length = 16)
@@ -12,7 +12,8 @@ class Account_Info(models.Model):
 	buy_exp = models.IntegerField(max_length = 4)
 	phone = models.CharField(max_length = 11, default = 0)
 	bank_card = models.IntegerField(default = 0)
-
+	photo = models.ImageField(upload_to = 'account_image', null = True)
+	
 	@staticmethod
 	def validate_email(email, password):
 		try:
@@ -63,7 +64,7 @@ class Goods_Info(models.Model):
 		default = 'I')
 	pure_price = models.IntegerField(max_length = 4)
 	buyer_id = models.ForeignKey('Account_Info', related_name = 'buyer_id', null = True)
-	#photo = models.ImageField(upload_to = '~/image')
+	#photo = models.ImageField(upload_to = 'goods_image', null = True)
 
 class Log_Info(models.Model):
 	'''

@@ -38,8 +38,6 @@ add_goods_data = {
     "password": "123",
     "name": u"显示屏",
     "description": u"2013年",
-    "pure_price": 400,
-    #"photo"
 }
 
 get_transaction_array_url = "json_api/get_transaction_array/"

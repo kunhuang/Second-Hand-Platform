@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^get_account_id?/$', views.get_account_id, name='get_account_id'),
     url(r'^get_account_info?/$', views.get_account_info, name='get_account_info'),
     url(r'^edit_account_info?/$', views.edit_account_info, name='edit_account_info'),
+    url(r'^add_photo?/$', views.add_photo, name='add_photo'),
+    url(r'^get_photo?/$', views.get_photo, name='get_photo'),
 
     url(r'^add_goods?/$', views.add_goods, name='add_goods'),
     url(r'^get_goods_info?/$', views.get_goods_info, name='get_goods_info'),

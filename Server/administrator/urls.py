@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^manage_account?/$', views.manage_account, name='manage_account'),
     url(r'^edit_account?/$', views.edit_account, name='edit_account'),
     
+    url(r'^send_message?/$', views.send_message, name='send_message'),
     #url(r'^manage_message?/$', views.manage_message, name='manage_message'),
     #url(r'^manage_transaction?/$', views.manage_transaction, name='manage_transaction'),
 )

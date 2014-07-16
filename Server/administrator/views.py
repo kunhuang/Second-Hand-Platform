@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
@@ -51,18 +52,18 @@ def edit_account(request):
 
         account = Account_Info.objects.get(id = request.GET['account_id'])
 
-        print request.POST
         if 'name' in request.POST:
             account.name = request.POST['name']
             account.email = request.POST['email']
-            account.password = request.POST['password']
+            #account.password = request.POST['password']
             account.sell_exp = request.POST['sell_exp']
             account.buy_exp = request.POST['buy_exp']
             account.phone = request.POST['phone']
             account.bank_card = request.POST['bank_card']
             account.save()
 
-            return redirect('edit_account?account_id=%s' % request.GET['account_id'])
+            #return redirect('edit_account?account_id=%s' % request.GET['account_id'])
+            return redirect('manage_account')
         else:
             template = loader.get_template('account_detail.html')
             context = RequestContext(request, {
@@ -72,6 +73,38 @@ def edit_account(request):
             })
             return HttpResponse(template.render(context))
 
+    except Exception, e:
+        print e
+        return HttpResponse('')
+    else:
+        pass
+    finally:
+        pass
+
+def send_message(request):
+    try:
+        if 'login' not in request.session or request.session['login'] == False:
+            return HttpResponse('401 Error')
+
+        account = Account_Info.objects.get(id = request.GET['account_id'])
+
+        if 'subject' in request.POST:
+            Message_Info.objects.create(
+                recv_account_id = account,
+                subject = request.POST['subject'],
+                content = request.POST['content'],
+                time = int(time.time()),
+                state = 0,
+                send_account_id = 0, #表示系统管理员
+            )
+            return redirect('manage_account')
+
+        else:
+            template = loader.get_template('send_message.html')
+            context = RequestContext(request, {
+                'account': account,
+            })
+            return HttpResponse(template.render(context))
     except Exception, e:
         print e
         return HttpResponse('')
