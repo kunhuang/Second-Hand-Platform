@@ -10,21 +10,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.FragmentManager;
+import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PaintFlagsDrawFilter;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 
 public class BuyerGoodsDetail extends ListActivity {
 	private Button addWishlistButton;
@@ -47,6 +54,8 @@ public class BuyerGoodsDetail extends ListActivity {
 	private String goodsId;
 
 	private SimpleAdapter adapter;
+	
+	private Bitmap bitmapQR;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,7 +103,7 @@ public class BuyerGoodsDetail extends ListActivity {
 				goodsPrice = row.getString("pure_price");
 				state = row.getString("state");
 				goodsContent = row.getString("description");
-				seller_id=row.getString(seller_id);
+				seller_id=row.getString("seller_id");
 
 				if (state.equals("I")) {
 					state = "未上架";
@@ -158,8 +167,7 @@ public class BuyerGoodsDetail extends ListActivity {
 
 		addWishlistButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
-
+			public void onClick(View arg0) {					
 				ClientApp clientApp = (ClientApp) getApplicationContext();
 				if (clientApp.getId() == -1) {
 					try {
@@ -240,8 +248,15 @@ public class BuyerGoodsDetail extends ListActivity {
 						e.printStackTrace();
 					}
 					
+						
 					
-//					erweimashengcheng(goodsId,id,goodsPrice);
+					/**@author LSL
+					 * @content function generateQR
+					 * @modifiedTime 2014-07-16 14:42
+					 * */
+					generateQR(goodsId, id, goodsPrice);
+					
+					
 					kongfu(zfb,goodsPrice);
 					Toast.makeText(getApplicationContext(),
 							"使用空付支付！bibibibi~~", Toast.LENGTH_SHORT).show();
@@ -342,5 +357,90 @@ public class BuyerGoodsDetail extends ListActivity {
 	}
 	
 	protected void onCreateView(Bundle savedInstanceState) {
+	}
+	
+	/**@author LSL
+	 * @content function generateQR 生成二维码并在弹框中显示
+	 * @modifiedTime 2014-07-16 14:42
+	 * */
+	void generateQR(String goodsIdQR, int idQR, String goodsPriceQR){
+		//设置弹框内图片域
+		ImageView imgQR = new ImageView(this);
+		//imgQR.setImageResource(R.drawable.goods_img);
+		
+		//生成二维码
+		try {
+			// 调用createArtwork将传入信息转为二维码
+			JSONObject jsonobj=new JSONObject();
+			jsonobj.put("goodsID",goodsIdQR);
+			jsonobj.put("ID",idQR);
+			jsonobj.put("goodsPrice",goodsPriceQR);
+			bitmapQR = createArtwork(jsonobj.toString());
+			// 将生成的二维码显示在图片区域
+			if (bitmapQR != null) {
+				imgQR.setImageBitmap(bitmapQR);
+				imgQR.invalidate();
+				imgQR.setVisibility(View.VISIBLE);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		//显示弹框
+		new AlertDialog.Builder(this)
+		.setTitle("二维码")
+		.setView(imgQR)
+		.setPositiveButton("确定", null)
+		.show();
+	}
+	
+	/**@author LSL
+	 * @content function createArtwork 生成二维码图片
+	 * @modifiedTime 2014-07-16 17:13
+	 * */
+	public Bitmap createArtwork(String str) throws WriterException {
+		Bitmap res = Bitmap.createBitmap(300, 300, Config.ARGB_8888);
+
+		BitMatrix matrix = new MultiFormatWriter().encode(str,
+				BarcodeFormat.QR_CODE, 300, 300);
+		int width = matrix.getWidth();
+		int height = matrix.getHeight();
+
+		final int WHITE = 0xFFFFFFFF;
+		final int BLACK = 0xFF000000;
+		final int RED = 0xFFFF0000;
+		final int BLUE = 0xFF0000FF;
+		int[] pixels = new int[width * height];
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				if (matrix.get(x, y)) {
+					if ((x > 60 && x < 120 && y > 73 && y < 77)
+							|| (x > 58 && x < 62 && y >= 75 && y <= 225)
+							|| (x > 60 && x < 120 && y > 223 && y < 227)) {
+						pixels[y * width + x] = RED;
+						// pixels[y * width + x-2] = BLACK ;
+					} else if ((x > 180 && x < 240 && y > 73 && y < 77)
+							|| (x > 178 && x < 182 && y >= 75 && y <= 225)
+							|| (x > 180 && x < 240 && y > 148 && y < 152)) {
+						pixels[y * width + x] = BLUE;
+					} else {
+						pixels[y * width + x] = BLACK;
+					}
+				} else {
+					pixels[y * width + x] = WHITE;
+				}
+			}
+		}
+		Bitmap bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888);
+		bitmap.setPixel(0, 0, WHITE);
+		bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+		// 绘图
+		Canvas canvas = new Canvas(res);
+		canvas.setDrawFilter(new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG
+				| Paint.FILTER_BITMAP_FLAG));
+		canvas.drawBitmap(bitmap, 0, 0, null);
+
+		return res;
 	}
 }
