@@ -32,14 +32,32 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     
 {% if account %}
-    
     <form role="form" method="post" action="?account_id={{account.id}}">
-    {%for key, value in account_dict%}
       <div class="form-group">
-        <label for="{{key}}">{{key}}</label>
-        <input name="{{key}}" class="form-control" id="{{key}}" value="{{value}}">
+        <label for="name">name</label>
+        <input name="name" class="form-control" id="name" value="{{account.name}}">
+      </div>      
+      <div class="form-group">
+        <label for="email">email</label>
+        <input name="email" class="form-control" id="email" value="{{account.email}}">
       </div>
-    {%endfor%}
+      <div class="form-group">
+        <label for="sell_exp">sell_exp</label>
+        <input name="sell_exp" class="form-control" id="sell_exp" value="{{account.sell_exp}}">
+      </div>
+      <div class="form-group">
+        <label for="buy_exp">buy_exp</label>
+        <input name="buy_exp" class="form-control" id="buy_exp" value="{{account.buy_exp}}">
+      </div>
+      <div class="form-group">
+        <label for="phone">phone</label>
+        <input name="phone" class="form-control" id="phone" value="{{account.phone}}">
+      </div>
+      <div class="form-group">
+        <label for="bank_card">bank_card</label>
+        <input name="bank_card" class="form-control" id="bank_card" value="{{account.bank_card}}">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
     </form>
 {% else %}
     <p>No Account yet.</p>

@@ -27,24 +27,29 @@
     <![endif]-->
   </head>
   <body>
-    <h1>你好，世界！</h1>
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     
-{% if account_array %}
-    <table class="table-striped">
-    {% for account in account_array %}
-        <tr>
-            <td>{{account.name}}</td>
-            <td>{{account.email}}</td>
-            <td>{{account.sell_exp}}</td>
-            <td>{{account.buy_exp}}</td>
-            <td>{{account.phone}}</td>
-            <td><a href="/administrator/edit_account?account_id={{account.id}}">详情</td>
-            <td><a href="/administrator/send_message?account_id={{account.id}}">发信息</td>
-        </tr>
-    {% endfor %}
-    </table>
+{% if account %}
+    <form role="form" method="post" action="?account_id={{account.id}}">
+      <div class="form-group">
+        <label for="account_id">account_id</label>
+        <input class="form-control" value="{{account.id}}" disabled="disabled">
+      </div>      
+      <div class="form-group">
+        <label for="name">name</label>
+        <input class="form-control" value="{{account.id}}" disabled="disabled">
+      </div>      
+      <div class="form-group">
+        <label for="subject">subject</label>
+        <input name="subject" class="form-control" id="subject" value="">
+      </div>      
+      <div class="form-group">
+        <label for="content">content</label>
+        <input name="content" class="form-control" id="content" value="">
+      </div>
+      
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 {% else %}
     <p>No Account yet.</p>
 {% endif %}
