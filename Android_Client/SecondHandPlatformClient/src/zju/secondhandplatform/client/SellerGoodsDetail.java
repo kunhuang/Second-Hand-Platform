@@ -104,6 +104,8 @@ public class SellerGoodsDetail extends ListActivity {
 					state = "已交易";
 				} else if (state.equals("C")) {
 					state = "下架";
+				} else if (state.equals("U")) {
+					state = "更新";
 				}
 				goodsNameText.setText(goodsName);
 				goodsPriceText.setText(goodsPrice);

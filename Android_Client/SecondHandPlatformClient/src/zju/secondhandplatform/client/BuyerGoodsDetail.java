@@ -40,8 +40,9 @@ public class BuyerGoodsDetail extends ListActivity {
 	private String state;
 	private String goodsContent;
 	private String editComment;
+	private String seller_id;
 
-	private int seller_id;
+	private int id;
 	private String passwd;
 	private String goodsId;
 
@@ -64,7 +65,7 @@ public class BuyerGoodsDetail extends ListActivity {
 		goodsId = intent.getStringExtra("GoodsId");
 
 		ClientApp clientApp = (ClientApp) this.getApplication();
-		seller_id = clientApp.getId();
+		id = clientApp.getId();
 		passwd = clientApp.getPassword();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		// params.add(new BasicNameValuePair("seller_id", "" + seller_id));
@@ -78,12 +79,12 @@ public class BuyerGoodsDetail extends ListActivity {
 		// params2.add(new BasicNameValuePair("password", passwd));
 		params2.add(new BasicNameValuePair("goods_id", goodsId));
 		Json commentJson = new Json("/json_api/get_comment_array/", params2);
-		//{"data":{"total":1,"rows":[{"id":3,"content":"editComment","time":1405388190,"account_id":8,"goods_id":32}]},"success":1}
+		// {"data":{"total":1,"rows":[{"id":3,"content":"editComment","time":1405388190,"account_id":8,"goods_id":32}]},"success":1}
 		try {
 			while (json.getJsonObj() == null) {
 			}
 			int success = json.getJsonObj().getInt("success");
-			
+
 			if (success == 1) {
 				JSONObject data = json.getJsonObj().getJSONObject("data");
 				// int total=data.getInt("total");
@@ -93,6 +94,7 @@ public class BuyerGoodsDetail extends ListActivity {
 				goodsPrice = row.getString("pure_price");
 				state = row.getString("state");
 				goodsContent = row.getString("description");
+				seller_id=row.getString(seller_id);
 
 				if (state.equals("I")) {
 					state = "未上架";
@@ -109,9 +111,11 @@ public class BuyerGoodsDetail extends ListActivity {
 				goodsContentText.setText(goodsContent);
 
 				List<HashMap<String, Object>> comments = new ArrayList<HashMap<String, Object>>();
-				while(commentJson.getJsonObj()==null){}
-				JSONObject commentData = commentJson.getJsonObj().getJSONObject("data");
-				int commentTotal=commentData.getInt("total");
+				while (commentJson.getJsonObj() == null) {
+				}
+				JSONObject commentData = commentJson.getJsonObj()
+						.getJSONObject("data");
+				int commentTotal = commentData.getInt("total");
 				JSONArray commentRows = commentData.getJSONArray("rows");
 				for (int i = 0; i < commentTotal; i++) {
 					JSONObject commentRow = commentRows.getJSONObject(i);
@@ -126,8 +130,10 @@ public class BuyerGoodsDetail extends ListActivity {
 					comments.add(map);
 				}
 				adapter = new SimpleAdapter(this, comments,
-						R.layout.comment_item, new String[] { "content","time","accountName" },
-						new int[] { R.id.detailCommentContent,R.id.commentTime2,R.id.commentName2 });
+						R.layout.comment_item, new String[] { "content",
+								"time", "accountName" }, new int[] {
+								R.id.detailCommentContent, R.id.commentTime2,
+								R.id.commentName2 });
 				try {
 					setListAdapter(adapter);
 				} catch (Exception e) {
@@ -165,8 +171,7 @@ public class BuyerGoodsDetail extends ListActivity {
 					}
 				} else {
 					List<NameValuePair> params = new ArrayList<NameValuePair>();
-					params.add(new BasicNameValuePair("buyer_id", ""
-							+ seller_id));
+					params.add(new BasicNameValuePair("buyer_id", ""+ id));
 					params.add(new BasicNameValuePair("password", passwd));
 					params.add(new BasicNameValuePair("goods_id", goodsId));
 					Json json = new Json("/json_api/add_wishlist/", params);
@@ -215,8 +220,65 @@ public class BuyerGoodsDetail extends ListActivity {
 						e.printStackTrace();
 					}
 				} else {
+					int id = clientApp.getId();
+					String passwd = clientApp.getPassword();
+					List<NameValuePair> params = new ArrayList<NameValuePair>();
+					params.add(new BasicNameValuePair("account_id", "" + id));
+					params.add(new BasicNameValuePair("password", passwd));
+					Json json = new Json("/json_api/get_account_info/", params);
+					String zfb=null;
+					try {
+						while (json.getJsonObj() == null) {
+						}
+						JSONObject data = json.getJsonObj().getJSONObject(
+								"data");
+						JSONArray rows = data.getJSONArray("rows");
+						JSONObject row = rows.getJSONObject(0);
+						zfb = row.getString("bank_card");
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+//					erweimashengcheng(goodsId,id,goodsPrice);
+					kongfu(zfb,goodsPrice);
 					Toast.makeText(getApplicationContext(),
 							"使用空付支付！bibibibi~~", Toast.LENGTH_SHORT).show();
+					//更改商品状态位支付				
+					List<NameValuePair> params2 = new ArrayList<NameValuePair>();
+					params2.add(new BasicNameValuePair("account_id", "" + id));
+					params2.add(new BasicNameValuePair("password", passwd));
+					params2.add(new BasicNameValuePair("account_type", "1"));
+					params2.add(new BasicNameValuePair("goods_id", goodsId));
+					params2.add(new BasicNameValuePair("type", "B"));
+					Json json2 = new Json("/json_api/transact_goods/", params2);
+					
+					try {
+						while (json2.getJsonObj() == null) {
+						}
+						int success = json2.getJsonObj().getInt("success");
+
+						if (success == 1) {
+							Toast.makeText(getApplicationContext(), "支付成功",
+									Toast.LENGTH_SHORT).show();
+						} else {
+							int error_type = json.getJsonObj().getInt("error_type");
+							if (error_type == -5) {
+								Toast.makeText(getApplicationContext(),
+										"已经加入心愿单", Toast.LENGTH_SHORT)
+										.show();
+							} else {
+								Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
+										Toast.LENGTH_SHORT).show();
+							}
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -275,6 +337,10 @@ public class BuyerGoodsDetail extends ListActivity {
 		});
 	}
 
+	private int kongfu(String zfb,String goodsPrice){
+		return 0;
+	}
+	
 	protected void onCreateView(Bundle savedInstanceState) {
 	}
 }

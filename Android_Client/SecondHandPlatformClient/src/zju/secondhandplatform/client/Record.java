@@ -31,12 +31,14 @@ import android.widget.Toast;
  * A placeholder fragment containing a simple view.
  */
 public class Record extends ListFragment {
+	// public class Record extends Fragment {
 	/**
 	 * The fragment argument representing the section number for this fragment.
 	 */
 	private static final String ARG_SECTION_NUMBER = "section_number";
 
 	private SimpleAdapter adapter;
+	private ListView listView2;
 
 	/**
 	 * Returns a new instance of this fragment for the given section number.
@@ -79,7 +81,7 @@ public class Record extends ListFragment {
 				}
 				int success = json.getJsonObj().getInt("success");
 
-				//{"data":{"total":1,"rows":[{"id":8,"type":"I","time":1405317492,"goods_id":31}]},"success":1}
+				// {"data":{"total":1,"rows":[{"id":8,"type":"I","time":1405317492,"goods_id":31}]},"success":1}
 				if (success == 1) {
 					JSONObject jsonData = json.getJsonObj().getJSONObject(
 							"data");
@@ -89,10 +91,10 @@ public class Record extends ListFragment {
 						JSONObject row = rows.getJSONObject(i);
 						int goodsId = row.getInt("goods_id");
 						String state = row.getString("type");
-						String time=row.getString("time");
-//						String goodsName = row.getString("name");
-//						String price = row.getString("pure_price");
-						
+						String time = row.getString("time");
+						// String goodsName = row.getString("name");
+						// String price = row.getString("pure_price");
+
 						if (state.equals("I")) {
 							state = "录入";
 						} else if (state.equals("O")) {
@@ -101,28 +103,50 @@ public class Record extends ListFragment {
 							state = "交易完成";
 						} else if (state.equals("C")) {
 							state = "下架";
+						} else if (state.equals("U")) {
+							state = "更新";
 						}
 
+						int id = clientApp.getId();
+						String passwd = clientApp.getPassword();
+						List<NameValuePair> params2 = new ArrayList<NameValuePair>();
+						params2.add(new BasicNameValuePair("seller_id", "" + id));
+						params2.add(new BasicNameValuePair("password", passwd));
+						params2.add(new BasicNameValuePair("goods_id", ""
+								+ goodsId));
+						Json json2 = new Json("/json_api/get_goods_info/",
+								params2);
+						while (json2.getJsonObj() == null) {
+						}
+						JSONObject josnData = json2.getJsonObj().getJSONObject(
+								"data");
+						// int total=data.getInt("total");
+						JSONArray jsonRows = josnData.getJSONArray("rows");
+						JSONObject jsonRow = jsonRows.getJSONObject(0);
+						String goodsName = jsonRow.getString("name");
+
 						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put("goodsId", goodsId);
+						map.put("goodsId", goodsName);
 						map.put("state", state);
 						map.put("time", time);
-//						map.put("goodsName", goodsName);
-//						map.put("price", price);
+						// map.put("goodsName", goodsName);
+						// map.put("price", price);
 						data.add(map);
 					}
 					adapter = new SimpleAdapter(this.getActivity(), data,
 							R.layout.record_item, new String[] { "goodsId",
-									"state","time"},
-							new int[] { R.id.recordItemGoodsName,
-									R.id.recordItemStatusContent,R.id.recordItemTimeContent });
-//					adapter = new SimpleAdapter(this.getActivity(), data,
-//							R.layout.goods_item, new String[] { "goodsName",
-//									"price" },
-//							new int[] { R.id.sellerGoodsName,
-//									R.id.sellerGoodsPrice });
+									"state", "time" }, new int[] {
+									R.id.recordItemGoodsName,
+									R.id.recordItemStatusContent,
+									R.id.recordItemTimeContent });
+					// adapter = new SimpleAdapter(this.getActivity(), data,
+					// R.layout.goods_item, new String[] { "goodsName",
+					// "price" },
+					// new int[] { R.id.sellerGoodsName,
+					// R.id.sellerGoodsPrice });
 					try {
 						setListAdapter(adapter);
+
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -151,8 +175,13 @@ public class Record extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_record,
-				container, false);
+		View rootView = inflater.inflate(R.layout.fragment_record, container,
+				false);
+		// ListView listView1=(ListView)rootView.findViewById(R.id.listView1);
+		// ListView listView2=(ListView)rootView.findViewById(R.id.listView2);
+		//
+		// listView1.setAdapter(adapter);
+		// listView2.setAdapter(adapter);
 
 		return rootView;
 	}

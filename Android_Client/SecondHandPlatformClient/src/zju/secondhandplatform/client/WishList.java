@@ -79,7 +79,7 @@ public class WishList extends ListFragment {
 				}
 				int success = json.getJsonObj().getInt("success");
 
-				//{"data":{"total":2,"rows":[{"id":2,"time":1405319645,"account_id":8,"payed":false,"goods_id":1},{"id":4,"time":1405391283,"account_id":8,"payed":false,"goods_id":32}]},"success":1}
+				// {"data":{"total":2,"rows":[{"id":2,"time":1405319645,"account_id":8,"payed":false,"goods_id":1},{"id":4,"time":1405391283,"account_id":8,"payed":false,"goods_id":32}]},"success":1}
 				if (success == 1) {
 					JSONObject jsonData = json.getJsonObj().getJSONObject(
 							"data");
@@ -88,37 +88,53 @@ public class WishList extends ListFragment {
 					for (int i = 0; i < total; i++) {
 						JSONObject row = rows.getJSONObject(i);
 						String goodsId = row.getString("goods_id");
-						Boolean payed=row.getBoolean("payed");
-						String time=row.getString("time");
-//						String goodsName = row.getString("name");
-//						String price = row.getString("pure_price");
-						
+						Boolean payed = row.getBoolean("payed");
+						String time = row.getString("time");
+						// String goodsName = row.getString("name");
+						// String price = row.getString("pure_price");
+
 						String state;
-						if(payed==false){
-							state="未支付";
-						}
-						else{
-							state="已支付";
+						if (payed == false) {
+							state = "未支付";
+						} else {
+							state = "已支付";
 						}
 
+						int id = clientApp.getId();
+						String passwd = clientApp.getPassword();
+						List<NameValuePair> params2 = new ArrayList<NameValuePair>();
+						params2.add(new BasicNameValuePair("seller_id", "" + id));
+						params2.add(new BasicNameValuePair("password", passwd));
+						params2.add(new BasicNameValuePair("goods_id", goodsId));
+						Json json2 = new Json("/json_api/get_goods_info/",
+								params2);
+						while(json2.getJsonObj()==null){}
+						JSONObject josnData = json2.getJsonObj().getJSONObject(
+								"data");
+						// int total=data.getInt("total");
+						JSONArray jsonRows = josnData.getJSONArray("rows");
+						JSONObject jsonRow = jsonRows.getJSONObject(0);
+						String goodsName = jsonRow.getString("name");
+						
 						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put("goodsId", goodsId);
+						map.put("goodsId", goodsName);
 						map.put("state", state);
 						map.put("time", time);
-//						map.put("goodsName", goodsName);
-//						map.put("price", price);
+						// map.put("goodsName", goodsName);
+						// map.put("price", price);
 						data.add(map);
 					}
 					adapter = new SimpleAdapter(this.getActivity(), data,
 							R.layout.wish_list_item, new String[] { "goodsId",
-									"state","time"},
-							new int[] { R.id.wishlistItemGoodsName,
-									R.id.wishlistItemStatusContent,R.id.wishlistItemTimeContent });
-//					adapter = new SimpleAdapter(this.getActivity(), data,
-//							R.layout.goods_item, new String[] { "goodsName",
-//									"price" },
-//							new int[] { R.id.sellerGoodsName,
-//									R.id.sellerGoodsPrice });
+									"state", "time" }, new int[] {
+									R.id.wishlistItemGoodsName,
+									R.id.wishlistItemStatusContent,
+									R.id.wishlistItemTimeContent });
+					// adapter = new SimpleAdapter(this.getActivity(), data,
+					// R.layout.goods_item, new String[] { "goodsName",
+					// "price" },
+					// new int[] { R.id.sellerGoodsName,
+					// R.id.sellerGoodsPrice });
 					try {
 						setListAdapter(adapter);
 					} catch (Exception e) {

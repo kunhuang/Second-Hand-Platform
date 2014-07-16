@@ -38,6 +38,7 @@
 
                 <EditText
                     android:id="@+id/registUsernameInput"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
@@ -63,7 +64,7 @@
 
                 <EditText
                     android:id="@+id/registEmailInput"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="22dp"
                     android:layout_weight="1"
@@ -86,7 +87,7 @@
 
                 <EditText
                     android:id="@+id/registPwInput"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="23dp"
                     android:layout_weight="1"
@@ -109,7 +110,7 @@
 
                 <EditText
                     android:id="@+id/registRepwInput"
-                    android:layout_width="220dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPassword" />

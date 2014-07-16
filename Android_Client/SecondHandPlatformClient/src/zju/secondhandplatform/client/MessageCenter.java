@@ -98,7 +98,7 @@ public class MessageCenter extends ListFragment {
 						map.put("subject", subject);
 						map.put("content", content);
 						map.put("time", time);
-						map.put("send_account_id", send_account_id);
+						map.put("send_account_id", "ϵͳ");
 						data.add(map);
 					}
 					adapter = new SimpleAdapter(this.getActivity(), data,
