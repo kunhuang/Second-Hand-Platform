@@ -89,6 +89,7 @@ RESPONSE:
 URL: POST /json_api/get_goods_array
 DATA:
     (goods_num),
+    (state),
 RESPONSE:
 
 *修改商品信息

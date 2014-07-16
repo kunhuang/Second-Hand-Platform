@@ -125,10 +125,13 @@ def get_account_info(request):
         password = request.POST['password']
 
         #super user
-        if password != '123':
-            if Account_Info.validate_id(id = account_id, password = password) == False:
-                error['error_type'] = -1
-                return HttpResponse(json.dumps(error))
+        if password == '123':
+            account_info_array = Account_Info.objects.filter(id = account_id)
+            return HttpResponse(getSuccessJson(account_info_array))
+
+        if Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
         else:
             account_info_array = Account_Info.objects.filter(id = account_id)
             return HttpResponse(getSuccessJson(account_info_array))
@@ -270,10 +273,14 @@ def get_my_goods_array(request):
 def get_goods_array(request):
     try:
         goods_num = request.POST.get('goods_num')
+        state = request.POST.get('state')
 
         goods_array = Goods_Info.objects.all().order_by('-id')
         if goods_num != None:
             goods_array = goods_array[:goods_num]
+        
+        if state != None:
+            goods_array = goods_array.filter(state = state)
         
         return HttpResponse(getSuccessJson(goods_array))
     except Exception, e:
@@ -297,10 +304,9 @@ def edit_goods_info(request):
         #photo
 
         #super user
-        if password != '123':    
-            if Account_Info.validate_id(id = seller_id, password = password) == False:
-                error['error_type'] = -1
-                return HttpResponse(json.dumps(error))
+        if password!='123' and Account_Info.validate_id(id = seller_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
 
         goods = Goods_Info.objects.filter(id = goods_id, seller_id = seller_id)
         if goods.exists() == False:
@@ -345,10 +351,9 @@ def transact_goods(request):
         type = request.POST['type']
 
         #super user
-        if password != '123':
-            if Account_Info.validate_id(id = account_id, password = password) == False:
-                error['error_type'] = -1
-                return HttpResponse(json.dumps(error))
+        if password != '123' and Account_Info.validate_id(id = account_id, password = password) == False:
+            error['error_type'] = -1
+            return HttpResponse(json.dumps(error))
 
         if account_type == '0':#seller
             goods = Goods_Info.objects.filter(id = goods_id, seller_id = account_id)
@@ -379,7 +384,7 @@ def transact_goods(request):
             goods = goods[0]
             if (type == 'B') and goods.state == 'O':
                 goods.state = type
-                goods.buyer_id = account_id
+                goods.buyer_id = Account_Info.objects.get(id = account_id)
                 goods.save()
                 log = Log_Info.objects.create(
                     goods_id = goods,
