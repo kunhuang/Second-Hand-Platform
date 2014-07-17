@@ -60,6 +60,7 @@ public class Home extends ListFragment {
 		ClientApp clientApp = (ClientApp) getActivity().getApplicationContext();
 		List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("state", "O"));
 		Json json = new Json("/json_api/get_goods_array/", params);
 		try {
 			while (json.getJsonObj() == null) {
@@ -85,8 +86,8 @@ public class Home extends ListFragment {
 				}
 				adapter = new SimpleAdapter(this.getActivity(), data,
 						R.layout.goods_item, new String[] { "goodsName",
-								"price" }, new int[] { R.id.sellerGoodsName,
-								R.id.sellerGoodsPrice });
+								"price" }, new int[] { R.id.detailGoodsName,
+								R.id.detailGoodsPrice2 });
 				try {
 					setListAdapter(adapter);
 				} catch (Exception e) {

@@ -1,9 +1,16 @@
 package zju.secondhandplatform.client;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.FileEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 
@@ -22,6 +29,7 @@ import android.widget.Toast;
 
 public class AddGoods extends Activity {
 	private Button AddGoodsButton;
+	private Button imgButton;
 	private EditText goodsNameText;
 	private EditText goodsPriceText;
 	private EditText goodsContentText;
@@ -34,6 +42,7 @@ public class AddGoods extends Activity {
 		setContentView(R.layout.fragment_seller_add_goods);
 
 		AddGoodsButton = (Button) findViewById(R.id.button1);
+		imgButton = (Button) findViewById(R.id.button2);
 		goodsNameText = (EditText) findViewById(R.id.editText1);
 		goodsPriceText = (EditText) findViewById(R.id.editText2);
 		goodsContentText = (EditText) findViewById(R.id.editText4);
@@ -46,10 +55,10 @@ public class AddGoods extends Activity {
 				goodsContent = goodsContentText.getText().toString();
 
 				ClientApp clientApp = (ClientApp) getApplication();
-				int id=clientApp.getId();
-				String passwd=clientApp.getPassword();
+				int id = clientApp.getId();
+				String passwd = clientApp.getPassword();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("seller_id", ""+id));
+				params.add(new BasicNameValuePair("seller_id", "" + id));
 				params.add(new BasicNameValuePair("password", passwd));
 				params.add(new BasicNameValuePair("name", goodsName));
 				params.add(new BasicNameValuePair("description", goodsContent));
@@ -77,6 +86,30 @@ public class AddGoods extends Activity {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		imgButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				File file = new File("goods_img.jpg");
+				String httpUrl = "http://10.180.26.157:8000/json_api/add_photo/";
+				HttpPost request = new HttpPost(httpUrl);
+				HttpClient httpClient = new DefaultHttpClient();
+				FileEntity entity = new FileEntity(file, "binary/octet-stream");
+				HttpResponse response;
+				try {
+					request.setEntity(entity);
+					entity.setContentEncoding("binary/octet-stream");
+					response = httpClient.execute(request);
+
+					// 如果返回状态为200，获得返回的结果
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						// 图片上传成功
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

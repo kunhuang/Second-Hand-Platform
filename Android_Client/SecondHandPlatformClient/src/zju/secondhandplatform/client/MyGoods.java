@@ -102,8 +102,8 @@ public class MyGoods extends ListFragment {
 				adapter = new SimpleAdapter(this.getActivity(), data,
 				R.layout.goods_item, new String[] { 
 						"goodsName", "price" }, new int[] {
-						R.id.sellerGoodsName,
-						R.id.sellerGoodsPrice });
+						R.id.detailGoodsName,
+						R.id.detailGoodsPrice2 });
 				try {
 					// listView.setAdapter(adapter);
 					setListAdapter(adapter);

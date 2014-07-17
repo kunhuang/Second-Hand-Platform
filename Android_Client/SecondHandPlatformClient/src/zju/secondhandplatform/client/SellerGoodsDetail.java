@@ -59,7 +59,8 @@ public class SellerGoodsDetail extends ListActivity {
 	private int id;
 	private String passwd;
 	private String goodsId;
-
+	private String seller_id;
+	
 	private ListView listView;
 	private SimpleAdapter adapter;
 	
@@ -111,6 +112,7 @@ public class SellerGoodsDetail extends ListActivity {
 				goodsPrice = row.getString("pure_price");
 				state = row.getString("state");
 				goodsContent = row.getString("description");
+				seller_id=row.getString("seller_id");
 
 				if (state.equals("I")) {
 					state = "未上架";
@@ -184,41 +186,7 @@ public class SellerGoodsDetail extends ListActivity {
 				 * @content function generateQR
 				 * @modifiedTime 2014-07-16 14:42
 				 * */
-				generateQR(goodsId);
-				
-				List<NameValuePair> params = new ArrayList<NameValuePair>();
-				params.add(new BasicNameValuePair("account_id", "" + id));
-				params.add(new BasicNameValuePair("password", passwd));
-				params.add(new BasicNameValuePair("account_type", "0"));
-				params.add(new BasicNameValuePair("goods_id", goodsId));
-				params.add(new BasicNameValuePair("type", "O"));
-				Json json = new Json("/json_api/transact_goods/", params);
-				
-				try {
-					while (json.getJsonObj() == null) {
-					}
-					int success = json.getJsonObj().getInt("success");
-
-					if (success == 1) {
-						Toast.makeText(getApplicationContext(), "上架成功",
-								Toast.LENGTH_SHORT).show();
-					} else {
-						int error_type = json.getJsonObj().getInt("error_type");
-						if (error_type == -5) {
-							Toast.makeText(getApplicationContext(),
-									"已经加入心愿单", Toast.LENGTH_SHORT)
-									.show();
-						} else {
-							Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
-									Toast.LENGTH_SHORT).show();
-						}
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				generateQR(goodsId,seller_id);
 			}
 		});
 
@@ -321,7 +289,7 @@ public class SellerGoodsDetail extends ListActivity {
 	 * @content function generateQR 生成二维码并在弹框中显示
 	 * @modifiedTime 2014-07-16 14:42
 	 * */
-	void generateQR(String goodsIdQR){
+	void generateQR(String goodsIdQR,String seller_id){
 		//设置弹框内图片域
 		ImageView imgQR = new ImageView(this);
 		//imgQR.setImageResource(R.drawable.goods_img);
@@ -331,6 +299,8 @@ public class SellerGoodsDetail extends ListActivity {
 			// 调用createArtwork将传入信息转为二维码
 			JSONObject jsonobj=new JSONObject();
 			jsonobj.put("goodsID",goodsIdQR);
+			jsonobj.put("seller_id",seller_id);
+			jsonobj.put("type","O");
 			bitmapQR = createArtwork(jsonobj.toString());
 			// 将生成的二维码显示在图片区域
 			if (bitmapQR != null) {

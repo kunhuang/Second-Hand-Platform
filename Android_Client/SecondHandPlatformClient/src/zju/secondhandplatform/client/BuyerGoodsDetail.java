@@ -51,7 +51,7 @@ public class BuyerGoodsDetail extends ListActivity {
 	private String editComment;
 	private String seller_id;
 
-	private int id;
+	private String id;
 	private String passwd;
 	private String goodsId;
 
@@ -76,7 +76,7 @@ public class BuyerGoodsDetail extends ListActivity {
 		goodsId = intent.getStringExtra("GoodsId");
 
 		ClientApp clientApp = (ClientApp) this.getApplication();
-		id = clientApp.getId();
+		id = ""+clientApp.getId();
 		passwd = clientApp.getPassword();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		// params.add(new BasicNameValuePair("seller_id", "" + seller_id));
@@ -234,8 +234,6 @@ public class BuyerGoodsDetail extends ListActivity {
 						e.printStackTrace();
 					}
 				} else {
-					int id = clientApp.getId();
-					String passwd = clientApp.getPassword();
 					List<NameValuePair> params = new ArrayList<NameValuePair>();
 					params.add(new BasicNameValuePair("account_id", "" + id));
 					params.add(new BasicNameValuePair("password", passwd));
@@ -253,53 +251,14 @@ public class BuyerGoodsDetail extends ListActivity {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
 						
 					
 					/**@author LSL
 					 * @content function generateQR
 					 * @modifiedTime 2014-07-16 14:42
 					 * */
-					generateQR(goodsId, id, goodsPrice);
+					generateQR(goodsId, id, goodsPrice,seller_id);
 					
-					
-					kongfu(zfb,goodsPrice);
-					Toast.makeText(getApplicationContext(),
-							"使用空付支付！bibibibi~~", Toast.LENGTH_SHORT).show();
-					//更改商品状态位支付				
-					List<NameValuePair> params2 = new ArrayList<NameValuePair>();
-					params2.add(new BasicNameValuePair("account_id", "" + id));
-					params2.add(new BasicNameValuePair("password", passwd));
-					params2.add(new BasicNameValuePair("account_type", "1"));
-					params2.add(new BasicNameValuePair("goods_id", goodsId));
-					params2.add(new BasicNameValuePair("type", "B"));
-					Json json2 = new Json("/json_api/transact_goods/", params2);
-					
-					try {
-						while (json2.getJsonObj() == null) {
-						}
-						int success = json2.getJsonObj().getInt("success");
-
-						if (success == 1) {
-							Toast.makeText(getApplicationContext(), "支付成功",
-									Toast.LENGTH_SHORT).show();
-						} else {
-							int error_type = json.getJsonObj().getInt("error_type");
-							if (error_type == -5) {
-								Toast.makeText(getApplicationContext(),
-										"已经加入心愿单", Toast.LENGTH_SHORT)
-										.show();
-							} else {
-								Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
-										Toast.LENGTH_SHORT).show();
-							}
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
 				}
 			}
 		});
@@ -357,10 +316,6 @@ public class BuyerGoodsDetail extends ListActivity {
 			}
 		});
 	}
-
-	private int kongfu(String zfb,String goodsPrice){
-		return 0;
-	}
 	
 	protected void onCreateView(Bundle savedInstanceState) {
 	}
@@ -369,7 +324,7 @@ public class BuyerGoodsDetail extends ListActivity {
 	 * @content function generateQR 生成二维码并在弹框中显示
 	 * @modifiedTime 2014-07-16 14:42
 	 * */
-	void generateQR(String goodsIdQR, int idQR, String goodsPriceQR){
+	void generateQR(String goodsIdQR, String idQR, String goodsPriceQR,String seller_id){
 		//设置弹框内图片域
 		ImageView imgQR = new ImageView(this);
 		//imgQR.setImageResource(R.drawable.goods_img);
@@ -381,6 +336,8 @@ public class BuyerGoodsDetail extends ListActivity {
 			jsonobj.put("goodsID",goodsIdQR);
 			jsonobj.put("ID",idQR);
 			jsonobj.put("goodsPrice",goodsPriceQR);
+			jsonobj.put("seller_id",seller_id);
+			jsonobj.put("type","P");
 			bitmapQR = createArtwork(jsonobj.toString());
 			// 将生成的二维码显示在图片区域
 			if (bitmapQR != null) {
