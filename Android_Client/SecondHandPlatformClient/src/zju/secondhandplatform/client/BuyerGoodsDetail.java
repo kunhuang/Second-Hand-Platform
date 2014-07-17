@@ -132,9 +132,25 @@ public class BuyerGoodsDetail extends ListActivity {
 					JSONObject commentRow = commentRows.getJSONObject(i);
 					String content = commentRow.getString("content");
 					Long timeLong = commentRow.getLong("time");
-					String accountName = "匿名用户              ";
-			//		String accountName = commentRow.getString("account_id");
+		//			String accountName = "匿名用户              ";
+					String accountId = commentRow.getString("account_id");
 
+					List<NameValuePair> params3 = new ArrayList<NameValuePair>();
+					params3.add(new BasicNameValuePair("account_id", ""
+							+ accountId));
+					params3.add(new BasicNameValuePair("password", "123"));
+					Json json3 = new Json("/json_api/get_account_info/",
+							params3);
+					while (json3.getJsonObj() == null) {
+					}
+					// {"data":{"total":1,"rows":[{"id":4,"buy_exp":0,"phone":"1234","bank_card":0,"type_seller":true,"email":"11kunhuang110@gmail.com","name":"hk","password":"12","sell_exp":0,"type_buyer":true}]},"success":1}
+					JSONObject jsonData3 = json3.getJsonObj()
+							.getJSONObject("data");
+					// int total=data.getInt("total");
+					JSONArray rows3 = jsonData3.getJSONArray("rows");
+					JSONObject row3 = rows3.getJSONObject(0);
+					String accountName = row3.getString("name");
+					
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String time=sdf.format(new Date(timeLong*1000L));
 					

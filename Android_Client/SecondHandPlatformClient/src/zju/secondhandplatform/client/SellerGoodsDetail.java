@@ -60,10 +60,10 @@ public class SellerGoodsDetail extends ListActivity {
 	private String passwd;
 	private String goodsId;
 	private String seller_id;
-	
+
 	private ListView listView;
 	private SimpleAdapter adapter;
-	
+
 	private Bitmap bitmapQR;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class SellerGoodsDetail extends ListActivity {
 		stateText = (TextView) findViewById(R.id.sellerStatus2);
 		goodsContentText = (TextView) findViewById(R.id.detailGoodsContent);
 		editCommentText = (EditText) findViewById(R.id.editComment);
-//		listView = (ListView) findViewById(android.R.id.list);
+		// listView = (ListView) findViewById(android.R.id.list);
 
 		Intent intent = getIntent();
 		goodsId = intent.getStringExtra("GoodsId");
@@ -112,7 +112,7 @@ public class SellerGoodsDetail extends ListActivity {
 				goodsPrice = row.getString("pure_price");
 				state = row.getString("state");
 				goodsContent = row.getString("description");
-				seller_id=row.getString("seller_id");
+				seller_id = row.getString("seller_id");
 
 				if (state.equals("I")) {
 					state = "未上架";
@@ -131,20 +131,40 @@ public class SellerGoodsDetail extends ListActivity {
 				goodsContentText.setText(goodsContent);
 
 				List<HashMap<String, Object>> comments = new ArrayList<HashMap<String, Object>>();
-				while(commentJson.getJsonObj()==null){}
-				JSONObject commentData = commentJson.getJsonObj().getJSONObject("data");
-				int commentTotal=commentData.getInt("total");
+				while (commentJson.getJsonObj() == null) {
+				}
+				JSONObject commentData = commentJson.getJsonObj()
+						.getJSONObject("data");
+				int commentTotal = commentData.getInt("total");
 				JSONArray commentRows = commentData.getJSONArray("rows");
 				for (int i = 0; i < commentTotal; i++) {
 					JSONObject commentRow = commentRows.getJSONObject(i);
 					String content = commentRow.getString("content");
 					Long timeLong = commentRow.getLong("time");
-					String accountName = "匿名用户              ";
-			//		String accountName = commentRow.getString("account_id");
 
-					SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					String time=sdf.format(new Date(timeLong*1000L));
-					
+					// String accountName = "匿名用户              ";
+					String accountId = commentRow.getString("account_id");
+
+					List<NameValuePair> params3 = new ArrayList<NameValuePair>();
+					params3.add(new BasicNameValuePair("account_id", ""
+							+ accountId));
+					params3.add(new BasicNameValuePair("password", "123"));
+					Json json3 = new Json("/json_api/get_account_info/",
+							params3);
+					while (json3.getJsonObj() == null) {
+					}
+					// {"data":{"total":1,"rows":[{"id":4,"buy_exp":0,"phone":"1234","bank_card":0,"type_seller":true,"email":"11kunhuang110@gmail.com","name":"hk","password":"12","sell_exp":0,"type_buyer":true}]},"success":1}
+					JSONObject jsonData3 = json3.getJsonObj().getJSONObject(
+							"data");
+					// int total=data.getInt("total");
+					JSONArray rows3 = jsonData3.getJSONArray("rows");
+					JSONObject row3 = rows3.getJSONObject(0);
+					String accountName = row3.getString("name");
+
+					SimpleDateFormat sdf = new SimpleDateFormat(
+							"yyyy/MM/dd HH:mm:ss");
+					String time = sdf.format(new Date(timeLong * 1000L));
+
 					HashMap<String, Object> map = new HashMap<String, Object>();
 					map.put("content", content);
 					map.put("time", time);
@@ -152,8 +172,10 @@ public class SellerGoodsDetail extends ListActivity {
 					comments.add(map);
 				}
 				adapter = new SimpleAdapter(this, comments,
-						R.layout.comment_item, new String[] { "content","time","accountName" },
-						new int[] { R.id.detailCommentContent,R.id.commentTime2,R.id.commentName2 });
+						R.layout.comment_item, new String[] { "content",
+								"time", "accountName" }, new int[] {
+								R.id.detailCommentContent, R.id.commentTime2,
+								R.id.commentName2 });
 				try {
 					// listView.setAdapter(adapter);
 					setListAdapter(adapter);
@@ -163,8 +185,8 @@ public class SellerGoodsDetail extends ListActivity {
 			} else {
 				int error_type = json.getJsonObj().getInt("error_type");
 				if (error_type == -3) {
-					Toast.makeText(this.getApplicationContext(),
-							"找不到该商品", Toast.LENGTH_SHORT).show();
+					Toast.makeText(this.getApplicationContext(), "找不到该商品",
+							Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(this.getApplicationContext(), "未知错误",
 							Toast.LENGTH_SHORT).show();
@@ -180,16 +202,16 @@ public class SellerGoodsDetail extends ListActivity {
 		onShelfButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
-				//goodsId
-				/**@author LSL
+
+				// goodsId
+				/**
+				 * @author LSL
 				 * @content function generateQR
 				 * @modifiedTime 2014-07-16 14:42
 				 * */
-				generateQR(goodsId,seller_id);
+				generateQR(goodsId, seller_id);
 			}
 		});
-
 
 		offShelfButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -201,7 +223,7 @@ public class SellerGoodsDetail extends ListActivity {
 				params.add(new BasicNameValuePair("goods_id", goodsId));
 				params.add(new BasicNameValuePair("type", "C"));
 				Json json = new Json("/json_api/transact_goods/", params);
-				
+
 				try {
 					while (json.getJsonObj() == null) {
 					}
@@ -213,11 +235,11 @@ public class SellerGoodsDetail extends ListActivity {
 					} else {
 						int error_type = json.getJsonObj().getInt("error_type");
 						if (error_type == -5) {
-							Toast.makeText(getApplicationContext(),
-									"已经加入心愿单", Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(getApplicationContext(), "已经加入心愿单",
+									Toast.LENGTH_SHORT).show();
 						} else {
-							Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
+							Toast.makeText(getApplicationContext(),
+									"未知错误:错误代码" + error_type,
 									Toast.LENGTH_SHORT).show();
 						}
 					}
@@ -229,19 +251,18 @@ public class SellerGoodsDetail extends ListActivity {
 				}
 			}
 		});
-		
 
 		submitCommentButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				editComment=editCommentText.getText().toString();
+				editComment = editCommentText.getText().toString();
 				List<NameValuePair> params = new ArrayList<NameValuePair>();
 				params.add(new BasicNameValuePair("account_id", "" + id));
 				params.add(new BasicNameValuePair("password", passwd));
 				params.add(new BasicNameValuePair("goods_id", goodsId));
 				params.add(new BasicNameValuePair("content", editComment));
 				Json json = new Json("/json_api/add_comment/", params);
-				
+
 				try {
 					while (json.getJsonObj() == null) {
 					}
@@ -253,11 +274,11 @@ public class SellerGoodsDetail extends ListActivity {
 					} else {
 						int error_type = json.getJsonObj().getInt("error_type");
 						if (error_type == -5) {
-							Toast.makeText(getApplicationContext(),
-									"已经加入心愿单）", Toast.LENGTH_SHORT)
-									.show();
+							Toast.makeText(getApplicationContext(), "已经加入心愿单）",
+									Toast.LENGTH_SHORT).show();
 						} else {
-							Toast.makeText(getApplicationContext(), "未知错误:错误代码"+error_type,
+							Toast.makeText(getApplicationContext(),
+									"未知错误:错误代码" + error_type,
 									Toast.LENGTH_SHORT).show();
 						}
 					}
@@ -269,38 +290,38 @@ public class SellerGoodsDetail extends ListActivity {
 				}
 			}
 		});
-		
-		
+
 		editButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent();
 				intent.setClass(SellerGoodsDetail.this, EditGoods.class);
 				intent.putExtra("GoodsId", goodsId);
-				startActivity(intent);	
+				startActivity(intent);
 			}
 		});
 	}
 
 	protected void onCreateView(Bundle savedInstanceState) {
 	}
-	
-	/**@author LSL
+
+	/**
+	 * @author LSL
 	 * @content function generateQR 生成二维码并在弹框中显示
 	 * @modifiedTime 2014-07-16 14:42
 	 * */
-	void generateQR(String goodsIdQR,String seller_id){
-		//设置弹框内图片域
+	void generateQR(String goodsIdQR, String seller_id) {
+		// 设置弹框内图片域
 		ImageView imgQR = new ImageView(this);
-		//imgQR.setImageResource(R.drawable.goods_img);
-		
-		//生成二维码
+		// imgQR.setImageResource(R.drawable.goods_img);
+
+		// 生成二维码
 		try {
 			// 调用createArtwork将传入信息转为二维码
-			JSONObject jsonobj=new JSONObject();
-			jsonobj.put("goodsID",goodsIdQR);
-			jsonobj.put("seller_id",seller_id);
-			jsonobj.put("type","O");
+			JSONObject jsonobj = new JSONObject();
+			jsonobj.put("goodsID", goodsIdQR);
+			jsonobj.put("seller_id", seller_id);
+			jsonobj.put("type", "O");
 			bitmapQR = createArtwork(jsonobj.toString());
 			// 将生成的二维码显示在图片区域
 			if (bitmapQR != null) {
@@ -310,17 +331,15 @@ public class SellerGoodsDetail extends ListActivity {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
-		
-		//显示弹框
-		new AlertDialog.Builder(this)
-		.setTitle("二维码")
-		.setView(imgQR)
-		.setPositiveButton("确定", null)
-		.show();
+		}
+
+		// 显示弹框
+		new AlertDialog.Builder(this).setTitle("二维码").setView(imgQR)
+				.setPositiveButton("确定", null).show();
 	}
-	
-	/**@author LSL
+
+	/**
+	 * @author LSL
 	 * @content function createArtwork 生成二维码图片
 	 * @modifiedTime 2014-07-16 17:13
 	 * */
@@ -370,4 +389,3 @@ public class SellerGoodsDetail extends ListActivity {
 		return res;
 	}
 }
-
